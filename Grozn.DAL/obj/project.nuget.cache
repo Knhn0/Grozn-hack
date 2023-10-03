@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "lGKvLBkUmIqcoZGejqtNedrVSIsKsOBuWt9f5tOr0dKbF8nt12ptUutsR0FgWGBruf5SqY4DtkhuBwFO8aqEbw==",
+  "dgSpecHash": "UC+3jERhCff929adD9E1VOMJWE/wLPIZHnwe+uYCXiRMIQwYQ2m3ChroGhdh8tiae8j4j7iswJuoqxX7gwSMWw==",
   "success": true,
   "projectFilePath": "C:\\ЦПТ\\Web\\Grozn\\Grozn.DAL\\Grozn.DAL.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Shnaider Kirill\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
+    "C:\\Users\\Shnaider Kirill\\.nuget\\packages\\dapper\\2.1.4\\dapper.2.1.4.nupkg.sha512",
     "C:\\Users\\Shnaider Kirill\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.22\\microsoft.aspnetcore.authentication.jwtbearer.6.0.22.nupkg.sha512",
     "C:\\Users\\Shnaider Kirill\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\6.0.22\\microsoft.aspnetcore.cryptography.internal.6.0.22.nupkg.sha512",
     "C:\\Users\\Shnaider Kirill\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\6.0.22\\microsoft.aspnetcore.cryptography.keyderivation.6.0.22.nupkg.sha512",
@@ -12,9 +12,7 @@
     "C:\\Users\\Shnaider Kirill\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.22\\microsoft.entityframeworkcore.6.0.22.nupkg.sha512",
     "C:\\Users\\Shnaider Kirill\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.22\\microsoft.entityframeworkcore.abstractions.6.0.22.nupkg.sha512",
     "C:\\Users\\Shnaider Kirill\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\6.0.22\\microsoft.entityframeworkcore.analyzers.6.0.22.nupkg.sha512",
-    "C:\\Users\\Shnaider Kirill\\.nuget\\packages\\microsoft.entityframeworkcore.design\\6.0.22\\microsoft.entityframeworkcore.design.6.0.22.nupkg.sha512",
     "C:\\Users\\Shnaider Kirill\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\6.0.22\\microsoft.entityframeworkcore.relational.6.0.22.nupkg.sha512",
-    "C:\\Users\\Shnaider Kirill\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\6.0.22\\microsoft.entityframeworkcore.tools.6.0.22.nupkg.sha512",
     "C:\\Users\\Shnaider Kirill\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\6.0.0\\microsoft.extensions.caching.abstractions.6.0.0.nupkg.sha512",
     "C:\\Users\\Shnaider Kirill\\.nuget\\packages\\microsoft.extensions.caching.memory\\6.0.1\\microsoft.extensions.caching.memory.6.0.1.nupkg.sha512",
     "C:\\Users\\Shnaider Kirill\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\6.0.0\\microsoft.extensions.configuration.abstractions.6.0.0.nupkg.sha512",

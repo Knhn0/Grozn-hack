@@ -12,4 +12,14 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.22" />
   </ItemGroup>
 
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\Grozn.DAL\Grozn.DAL.csproj" />
+    <ProjectReference Include="..\Grozn.Domain\Grozn.Domain.csproj" />
+  </ItemGroup>
+
+
+
+
 </Project>
