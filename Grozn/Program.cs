@@ -1,4 +1,6 @@
 
+using Grozn.DAL.Interfaces;
+using Grozn.DAL.Repositories;
 using Grozn.Services;
 using Grozn.Services.Interfaces;
 using Microsoft.Extensions.Options;
@@ -10,6 +12,7 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 // Add services to the container.
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
