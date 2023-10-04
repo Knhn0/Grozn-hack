@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.Abstactions", "Service.Abstactions\Service.Abstactions.csproj", "{B4C97E35-C399-4093-A544-0C375BD9F8CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presistence", "Presistence\Presistence.csproj", "{F38E76D6-9A11-46A2-BC4B-651AAE26B7E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\Persistence.csproj", "{F38E76D6-9A11-46A2-BC4B-651AAE26B7E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Presentation\Presentation.csproj", "{0D5D8C5B-127C-4FC8-879D-81CB9BF9598A}"
 EndProject
