@@ -1,4 +1,7 @@
-﻿namespace GroznApi.Middleware;
+﻿using System.Text.Json;
+using Exceptions;
+
+namespace GroznApi.Middleware;
 
 internal sealed class ExceptionHandlingMiddleware : IMiddleware
 {
