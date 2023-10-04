@@ -1,0 +1,12 @@
+C:\Users\sw\Desktop\Grozn-hack\GroznAPi\Common\Jwt\bin\Debug\net6.0\Jwt.deps.json
+C:\Users\sw\Desktop\Grozn-hack\GroznAPi\Common\Jwt\bin\Debug\net6.0\Jwt.dll
+C:\Users\sw\Desktop\Grozn-hack\GroznAPi\Common\Jwt\bin\Debug\net6.0\Jwt.pdb
+C:\Users\sw\Desktop\Grozn-hack\GroznAPi\Common\Jwt\obj\Debug\net6.0\Jwt.csproj.AssemblyReference.cache
+C:\Users\sw\Desktop\Grozn-hack\GroznAPi\Common\Jwt\obj\Debug\net6.0\Jwt.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sw\Desktop\Grozn-hack\GroznAPi\Common\Jwt\obj\Debug\net6.0\Jwt.AssemblyInfoInputs.cache
+C:\Users\sw\Desktop\Grozn-hack\GroznAPi\Common\Jwt\obj\Debug\net6.0\Jwt.AssemblyInfo.cs
+C:\Users\sw\Desktop\Grozn-hack\GroznAPi\Common\Jwt\obj\Debug\net6.0\Jwt.csproj.CoreCompileInputs.cache
+C:\Users\sw\Desktop\Grozn-hack\GroznAPi\Common\Jwt\obj\Debug\net6.0\Jwt.dll
+C:\Users\sw\Desktop\Grozn-hack\GroznAPi\Common\Jwt\obj\Debug\net6.0\refint\Jwt.dll
+C:\Users\sw\Desktop\Grozn-hack\GroznAPi\Common\Jwt\obj\Debug\net6.0\Jwt.pdb
+C:\Users\sw\Desktop\Grozn-hack\GroznAPi\Common\Jwt\obj\Debug\net6.0\ref\Jwt.dll

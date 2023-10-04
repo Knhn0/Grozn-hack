@@ -8,7 +8,19 @@
 
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.22" />
+      <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.33.0" />
+      <PackageReference Include="Microsoft.IdentityModel.Logging" Version="6.33.0" />
+      <PackageReference Include="Microsoft.IdentityModel.Protocols" Version="6.33.0" />
+      <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="6.33.0" />
+      <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.33.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="6.1.0" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\Common\Jwt\Jwt.csproj" />
+      <ProjectReference Include="..\Contracts\Contracts.csproj" />
     </ItemGroup>
 
 </Project>
