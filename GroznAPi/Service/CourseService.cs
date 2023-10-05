@@ -7,7 +7,7 @@ using Service.Abstactions;
 
 namespace Service;
 
-public class CourseService : ICourseRepository
+public class CourseService : ICourseService
 {
     private readonly ICourseRepository _courseRepository;
     private readonly object _userInfoService; // todo: change after user info implementation
