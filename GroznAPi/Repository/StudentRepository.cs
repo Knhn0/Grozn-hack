@@ -23,7 +23,7 @@ public class StudentRepository : IStudentRepository
     public async Task<Student> GetByIdAsync(int id)
     {
         var result = await _db.Students.FirstOrDefaultAsync(x => x.Id == id);
-        return result ?? throw new StudentNotFoundException("Course not found");
+        return result ?? throw new StudentNotFoundException("Student not found");
     }
 
     public async Task<Student> UpdateAsync(Student t)
@@ -31,7 +31,7 @@ public class StudentRepository : IStudentRepository
         var dbStudent = await _db.Students.FirstOrDefaultAsync(x => x.Id == t.Id);
         if (dbStudent == null)
         {
-            throw new CourseNotFoundException("Student not found");
+            throw new StudentNotFoundException("Student not found");
         }
 
         dbStudent.Courses = t.Courses;

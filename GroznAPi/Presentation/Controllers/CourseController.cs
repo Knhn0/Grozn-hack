@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Service.Abstactions;
 
 namespace Presentation.Controllers;
 
@@ -11,9 +12,13 @@ namespace Presentation.Controllers;
 public class CourseController : BaseController
 {
     private readonly ILogger<CourseController> _logger;
+    private readonly ICourseService _courseService;
 
-    public CourseController(ILogger<CourseController> logger)
+    public CourseController(ILogger<CourseController> logger, ICourseService courseService)
     {
-        this._logger = logger;
+        _logger = logger;
+        _courseService = courseService;
     }
+    
+    
 }
