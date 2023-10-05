@@ -33,7 +33,7 @@ public class UserInfoRepository : IUserInfoRepository
         var dbInfo = await _db.UserInfos.FirstOrDefaultAsync(x => x.Id == t.Id);
         if (dbInfo == null)
         {
-            throw new CourseNotFoundException("UserInfo not found");
+            throw new UserInfoNotFoundException("UserInfo not found");
         }
 
         dbInfo.FirstName = t.FirstName;
