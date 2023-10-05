@@ -8,6 +8,7 @@
 
 
     <ItemGroup>
+      <ProjectReference Include="..\Common\Helpers\Helpers.csproj" />
       <ProjectReference Include="..\Persistence\Persistence.csproj" />
       <ProjectReference Include="..\Repository.Abstractions\Repository.Abstractions.csproj" />
       <ProjectReference Include="..\Service.Abstactions\Service.Abstactions.csproj" />
@@ -16,6 +17,8 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.22" />
+      <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.33.0" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.33.0" />
     </ItemGroup>
 
 
