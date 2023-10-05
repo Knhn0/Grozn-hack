@@ -21,6 +21,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Common\Jwt\Jwt.csproj" />
       <ProjectReference Include="..\Contracts\Contracts.csproj" />
+      <ProjectReference Include="..\Service\Service.csproj" />
     </ItemGroup>
 
 </Project>
