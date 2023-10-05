@@ -36,7 +36,20 @@ public class CourseService : ICourseService
         };
     }
 
-    public async Task<CourseJoinedResponseDto> JoinCourse(JoinCourseRequestDto request, int userId)
+    public async Task<GetThemesResponseDto> GetThemesAsync(GetThemesRequestDto request)
+    {
+        var themes = await _courseRepository.GetThemesById(request.CourseId);
+        var dtos = themes.Select(t => new GetThemesResponseDto.ThemeDto
+        {
+            Title = t.Title, Description = t.Description
+        }).ToList();
+        return new GetThemesResponseDto
+        {
+            Themes = dtos
+        };
+    }
+
+    public async Task<CourseJoinedResponseDto> JoinCourseAsync(JoinCourseRequestDto request, int userId)
     {
         var student = _userInfoService.GetStudent(userId);
         if (student is null) throw new StudentNotFoundException("Student with such not found");

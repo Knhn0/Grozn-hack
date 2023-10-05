@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Exceptions.Implementation;
 using Helpers;
 using Microsoft.EntityFrameworkCore;
 using Presistence;
@@ -23,7 +24,7 @@ public class CourseRepository : ICourseRepository
     public async Task<Course> GetByIdAsync(int id)
     {
         var result = await _db.Courses.FirstOrDefaultAsync(x => x.Id == id);
-        return result ?? throw new Exception("User not found");
+        return result ?? throw new CourseNotFoundException("Course not found");
     }
 
     public async Task<Course> AddStudent(int id, Student student)
@@ -34,12 +35,18 @@ public class CourseRepository : ICourseRepository
         return dbCourse;
     }
 
+    public async Task<ICollection<Theme>> GetThemesById(int id)
+    {
+        var dbCourse = await GetByIdAsync(id);
+        return dbCourse == null ? throw new CourseNotFoundException("Course not found") : dbCourse.Themes;
+    }
+
     public async Task<Course> UpdateAsync(Course t)
     {
         var dbCourse = await _db.Courses.FirstOrDefaultAsync(x => x.Id == t.Id);
         if (dbCourse == null)
         {
-            throw new Exception("Course not found");
+            throw new CourseNotFoundException("Course not found");
         }
 
         dbCourse.Description = t.Description;
