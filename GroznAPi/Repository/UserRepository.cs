@@ -33,9 +33,9 @@ public class UserRepository : IUserRepository
         {
             throw new Exception("User not found"); // todo
         }
-        u.Email = t.Email;
+        //u.Email = t.Email;
         u.Username = t.Username;
-        u.Phone = t.Phone;
+        //u.Phone = t.Phone;
         u.Password = new PasswordHasher().HashPassword(t.Password);
         
         await _db.SaveChangesAsync();

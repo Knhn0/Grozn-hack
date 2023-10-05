@@ -6,7 +6,7 @@ public class Lesson
 {
     public int Id { get; set; }
     public string Title { get; set; }
-    public JsonObject ArticleBody { get; set; } // todo: хз будет ли сериализоваться такая залупа
+    public string ArticleBody { get; set; } // todo: хз будет ли сериализоваться такая залупа
     
     public int ThemeId { get; set; }
     public Theme Theme { get; set; }

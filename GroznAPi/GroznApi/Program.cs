@@ -10,12 +10,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Presistence;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.Configure<JwtIssuerOptions>(builder.Configuration.GetSection(nameof(JwtIssuerOptions)));
+
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(swagger =>
@@ -109,8 +112,14 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddDbContext<Context>();
 //build
 var app = builder.Build();
+
+using (var context = app.Services.GetService<Context>())
+{
+    context.Database.EnsureCreated();
+}
 
 //swagger
 app.UseSwagger();

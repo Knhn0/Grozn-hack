@@ -23,10 +23,10 @@ public class UserService : IUserService
     {
         var candidate = await _userRepository.GetByIdAsync(t.Id);
         if (candidate == null) throw new Exception("User not found");
-        if (!String.IsNullOrEmpty(t.Email)) candidate.Email = t.Email;
+        //if (!String.IsNullOrEmpty(t.Email)) candidate.Email = t.Email;
         if (!String.IsNullOrEmpty(t.Username)) candidate.Username = t.Username;
         if (!String.IsNullOrEmpty(t.Password)) candidate.Password = t.Password; // need add hasher
-        if (!String.IsNullOrEmpty(t.Phone)) candidate.Phone = t.Password;
+        //if (!String.IsNullOrEmpty(t.Phone)) candidate.Phone = t.Password;
         await _userRepository.UpdateAsync(candidate);
         return candidate;
     }
