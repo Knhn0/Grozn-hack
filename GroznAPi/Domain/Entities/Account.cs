@@ -3,14 +3,10 @@
 public class Account
 {
     public int Id { get; set; }
-    public string Username { get; set; } = string.Empty;
-    public string Phone { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
-
-    public string Password = String.Empty;
+    public string Username { get; set; }
+    public string Password { get; set; }
 
     public string? RefreshToken { get; set; }
     public DateTime RefreshTokenExpiryTime { get; set; }
-    
     public UserInfo UserInfo { get; set; }
 }
