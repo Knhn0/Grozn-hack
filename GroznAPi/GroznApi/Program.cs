@@ -112,15 +112,20 @@ builder.Services.AddAuthentication(options =>
 
 
 builder.Services.AddScoped<ICourseService, CourseService>();
-builder.Services.AddScoped<IThemeSevice, ThemeService>();
+builder.Services.AddScoped<IThemeService, ThemeService>();
 builder.Services.AddScoped<ILessonService, LessonService>();
 builder.Services.AddScoped<ITestService, TestService>();
 builder.Services.AddScoped<GptService>();
+builder.Services.AddScoped<IRegistrationService, RegistrationService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IThemeRepository, ThemeRepository>();
 builder.Services.AddScoped<ILessonRepository, LessonRepository>();
 builder.Services.AddScoped<ITestRepository, TestRepository>();
+builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 
 
 builder.Services.AddDbContext<Context>();

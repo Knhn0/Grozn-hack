@@ -1,8 +1,55 @@
-﻿using Repository.Abstractions;
+﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Presistence;
+using Repository.Abstractions;
 
 namespace Repository;
 
 public class ThemeRepository : IThemeRepository
 {
-    
+    private readonly Context _db;
+
+    public ThemeRepository(Context db)
+    {
+        _db = db;
+    }
+
+    public async Task<List<Lesson>> GetLessonsAsync()
+    {
+        return await _db.Lessons.ToListAsync();
+    }
+
+    public async Task<Theme?> GetByIdAsync(int id)
+    {
+        var res = await _db.Themes.FirstOrDefaultAsync(x =>x.Id == id);
+        return res;
+    }
+
+    public async Task<Theme> UpdateAsync(Theme t)
+    {
+        var theme = await _db.Themes.FirstOrDefaultAsync(x => x.Id == t.Id);
+        if (theme == null) throw new Exception("Theme not found");
+        theme.Title = t.Title;
+        theme.Description = t.Description;
+        await _db.SaveChangesAsync();
+        return theme;
+    }
+
+    public async Task<Theme> CreateAsync(Theme t)
+    {
+        await _db.Themes.AddAsync(t);
+        await _db.SaveChangesAsync();
+        return t;
+    }
+
+    public Task DeleteAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task DeleteAsync(Theme t)
+    {
+        _db.Themes.Remove(t);
+        await _db.SaveChangesAsync();
+    }
 }

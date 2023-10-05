@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Exceptions.Implementation;
 using Helpers;
 using Microsoft.EntityFrameworkCore;
 using Presistence;
@@ -6,11 +7,11 @@ using Repository.Abstractions;
 
 namespace Repository;
 
-public class UserRepository : IUserRepository
+public class AccountRepository : IAccountRepository
 {
     private readonly Context _db;
 
-    public UserRepository(Context db)
+    public AccountRepository(Context db)
     {
         _db = db;
     }
@@ -23,7 +24,7 @@ public class UserRepository : IUserRepository
     public async Task<Account?> GetByIdAsync(int id)
     {
         var result = await _db.Accounts.FirstOrDefaultAsync(x => x.Id == id);
-        return result ?? throw new Exception("User not found");
+        return result ?? throw new AccountNotFoundException("Account not found");
     }
 
     public async Task<Account> UpdateAsync(Account t)
@@ -31,7 +32,7 @@ public class UserRepository : IUserRepository
         var u = await _db.Accounts.FirstOrDefaultAsync(x => x.Id == t.Id);
         if (u == null)
         {
-            throw new Exception("User not found"); // todo
+            throw new AccountNotFoundException("Account not found");
         }
         //u.Email = t.Email;
         u.Username = t.Username;

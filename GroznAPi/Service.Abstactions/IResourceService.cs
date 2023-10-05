@@ -1,6 +1,6 @@
 namespace Service.Abstactions;
 
-public interface IThemeSevice
+public interface IResourceService
 {
     
 }
