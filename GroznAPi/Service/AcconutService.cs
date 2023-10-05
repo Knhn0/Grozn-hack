@@ -5,11 +5,12 @@ using Service.Abstactions;
 
 namespace Service;
 
-public class AccountService : IAccountService
+public class AcconutService : IAccountService
 {
     private readonly IAccountRepository _accountRepository;
 
-    public AccountService(IAccountRepository accountRepository)
+    public AcconutService(IAccountRepository accountRepository)
+
     {
         _accountRepository = accountRepository;
     }

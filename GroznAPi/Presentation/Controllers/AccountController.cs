@@ -1,17 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Service;
 
 namespace Presentation.Controllers;
 
-public class UserController : BaseController
+public class AccountController : BaseController
 {
-    private readonly AccountService _accountService;
+    private readonly AcconutService _acconutService;
 
-    public UserController(AccountService accountService)
+    public AccountController(AcconutService acconutService)
     {
-        _accountService = accountService;
+        _acconutService = acconutService;
     }
     
     [HttpGet("get/{userId}")]
@@ -22,14 +22,14 @@ public class UserController : BaseController
             return BadRequest("Invalid id");
         }
 
-        var user = await _accountService.GetByIdAsync(userId);
+        var user = await _acconutService.GetByIdAsync(userId);
         return Ok(user);
     }
     
     [HttpGet("get")]
     public async Task<ActionResult<Account>> GetAllUsersAsync()
     {
-        var users = await _accountService.GetAllAsync();
+        var users = await _acconutService.GetAllAsync();
         return Ok(users);
     }
     
@@ -41,20 +41,20 @@ public class UserController : BaseController
             return BadRequest("Invalid id");
         }
 
-        var user = await _accountService.GetByIdAsync(userId);
+        var user = await _acconutService.GetByIdAsync(userId);
         
         if (user == null)
         {
             return BadRequest("User not found");
         }
-        var response = _accountService.DeleteAsync(user);
+        var response = _acconutService.DeleteAsync(user);
         return Ok("User successfully deleted");
     }
 
     [HttpPost("create")]
     public async Task<ActionResult> CreateUser([Required] Account account) 
     {
-        var responce = _accountService.CreateAsync(account);
+        var responce = _acconutService.CreateAsync(account);
         return Ok("User was created");
     }
     
