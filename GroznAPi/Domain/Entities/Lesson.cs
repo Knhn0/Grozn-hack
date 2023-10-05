@@ -8,4 +8,5 @@ public class Lesson
     public string Title { get; set; }
     public string ArticleBody { get; set; }
     public Theme Theme { get; set; }
+    
 }

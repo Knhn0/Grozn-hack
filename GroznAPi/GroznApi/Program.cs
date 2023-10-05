@@ -119,7 +119,7 @@ builder.Services.AddAuthentication(options =>
 
 
 builder.Services.AddScoped<ICourseService, CourseService>();
-builder.Services.AddScoped<IThemeSevice, ThemeService>();
+builder.Services.AddScoped<IThemeService, ThemeService>();
 builder.Services.AddScoped<ILessonService, LessonService>();
 builder.Services.AddScoped<ITestService, TestService>();
 
