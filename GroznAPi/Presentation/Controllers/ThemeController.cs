@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Repository.Abstractions;
 using Service;
+using Service.Abstactions;
 
 namespace Presentation.Controllers;
 
@@ -14,9 +15,9 @@ namespace Presentation.Controllers;
 public class ThemeController : BaseController
 {
     private readonly ILogger<TestController> _logger;
-    private readonly ThemeService _themeService;
+    private readonly IThemeService _themeService;
 
-    public ThemeController(ILogger<TestController> logger, ThemeService themeService)
+    public ThemeController(ILogger<TestController> logger, IThemeService themeService)
     {
         _logger = logger;
         _themeService = themeService;
