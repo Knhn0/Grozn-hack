@@ -31,6 +31,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Common\Exceptions\Exceptions.csproj" />
       <ProjectReference Include="..\Presentation\Presentation.csproj" />
+      <ProjectReference Include="..\Repository\Repository.csproj" />
     </ItemGroup>
 
 </Project>

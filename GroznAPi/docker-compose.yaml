@@ -4,9 +4,9 @@ services:
     image: postgres:15
     restart: always
     environment:
-      POSTGRES_USER: grozn-hack-admin
-      POSTGRES_PASSWORD: grozn-hack-admin
-      POSTGRES_DB: production
+      POSTGRES_USER: 'grozn-hack-admin'
+      POSTGRES_PASSWORD: 'grozn-hack-admin'
+      POSTGRES_DB: 'production'
     networks:
       - backend
     ports:
