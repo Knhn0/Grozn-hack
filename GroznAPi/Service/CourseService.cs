@@ -16,7 +16,7 @@ public class CourseService : ICourseService
     {
         _courseRepository = courseRepository;
     }
-
+    
     public async Task<CourseCreatedResponseDto> CreateCourseAsync(CreateCourseRequestDto request)
     {
         var course = new Course

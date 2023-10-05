@@ -2,7 +2,7 @@
 
 namespace Repository.Abstractions;
 
-public interface IUserRepository : IBaseRepository<Account>
+public interface IAccountRepository : IBaseRepository<Account>
 {
     
 }
