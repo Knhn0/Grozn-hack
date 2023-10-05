@@ -7,6 +7,6 @@ public interface ICourseRepository
     Task<List<Course>> GetAllAsync();
     Task<Course> GetByIdAsync(int id);
     Task<Course> UpdateAsync(Course t);
-    Task CreateAsync(Course t);
-    Task DeleteAsync(Course t);
+    Task<Course> CreateAsync(Course t);
+    Task<bool> DeleteAsync(Course t);
 }

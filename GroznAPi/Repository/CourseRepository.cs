@@ -44,15 +44,17 @@ public class CourseRepository : ICourseRepository
         return dbCourse;
     }
 
-    public async Task CreateAsync(Course t)
+    public async Task<Course> CreateAsync(Course t)
     {
-        await _db.Courses.AddAsync(t);
+        var result = await _db.Courses.AddAsync(t);
         await _db.SaveChangesAsync();
+        return result.Entity;
     }
 
-    public async Task DeleteAsync(Course t)
+    public async Task<bool> DeleteAsync(Course t)
     {
-        _db.Courses.Remove(t);
+        var result = _db.Courses.Remove(t);
         await _db.SaveChangesAsync();
+        return result.State == EntityState.Deleted;
     }
 }
