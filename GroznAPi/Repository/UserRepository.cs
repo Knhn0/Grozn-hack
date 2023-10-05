@@ -15,43 +15,43 @@ public class UserRepository : IUserRepository
         _db = db;
     }
 
-    public async Task<List<User>> GetAllAsync()
+    public async Task<List<Account>> GetAllAsync()
     {
-        return await _db.Users.ToListAsync();
+        return await _db.Accounts.ToListAsync();
     }
 
-    public async Task<User?> GetByIdAsync(int id)
+    public async Task<Account?> GetByIdAsync(int id)
     {
-        var result = await _db.Users.FirstOrDefaultAsync(x => x.Id == id);
+        var result = await _db.Accounts.FirstOrDefaultAsync(x => x.Id == id);
         return result ?? throw new Exception("User not found");
     }
 
-    public async Task<User> UpdateAsync(User t)
+    public async Task<Account> UpdateAsync(Account t)
     {
-        var u = await _db.Users.FirstOrDefaultAsync(x => x.Id == t.Id);
+        var u = await _db.Accounts.FirstOrDefaultAsync(x => x.Id == t.Id);
         if (u == null)
         {
             throw new Exception("User not found"); // todo
         }
-        u.Email = t.Email;
+        //u.Email = t.Email;
         u.Username = t.Username;
-        u.Phone = t.Phone;
+        //u.Phone = t.Phone;
         u.Password = new PasswordHasher().HashPassword(t.Password);
         
         await _db.SaveChangesAsync();
         return u;
     }
 
-    public async Task CreateAsync(User t)
+    public async Task CreateAsync(Account t)
     {
         t.Password = new PasswordHasher().HashPassword(t.Password);
-        await _db.Users.AddAsync(t);
+        await _db.Accounts.AddAsync(t);
         await _db.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(User t)
+    public async Task DeleteAsync(Account t)
     {
-        _db.Users.Remove(t); //may not work
+        _db.Accounts.Remove(t); //may not work
         await _db.SaveChangesAsync();
     }
 }

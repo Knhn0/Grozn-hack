@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   database:
-    image: postgres
+    image: postgres:15
     restart: always
     environment:
       POSTGRES_USER: grozn-hack-admin
@@ -10,7 +10,7 @@ services:
     networks:
       - backend
     ports:
-      - "5432:5432"
+      - "5431:5432"
     volumes:
       - database-pg:/var/lib/postgresql/data
   
