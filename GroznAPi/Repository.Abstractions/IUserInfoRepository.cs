@@ -9,4 +9,6 @@ public interface IUserInfoRepository
     Task<UserInfo> UpdateAsync(UserInfo t);
     Task<UserInfo> CreateAsync(UserInfo t);
     Task<bool> DeleteAsync(UserInfo t);
+    Task<Role> GetRoleByIdAsync(int id);
+    Task<Student> GetStudentAsync(int id);
 }
