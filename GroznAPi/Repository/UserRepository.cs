@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Helpers;
 using Microsoft.EntityFrameworkCore;
 using Presistence;
 using Repository.Abstractions;
@@ -35,7 +36,7 @@ public class UserRepository : IUserRepository
         u.Email = t.Email;
         u.Username = t.Username;
         u.Phone = t.Phone;
-       // u.PasswordHashed = t.PasswordHashed;
+        u.Password = new PasswordHasher().HashPassword(t.Password);
         
         await _db.SaveChangesAsync();
         return u;
@@ -43,6 +44,7 @@ public class UserRepository : IUserRepository
 
     public async Task CreateAsync(User t)
     {
+        t.Password = new PasswordHasher().HashPassword(t.Password);
         await _db.Users.AddAsync(t);
         await _db.SaveChangesAsync();
     }
