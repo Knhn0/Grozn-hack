@@ -2,9 +2,9 @@
 using Jwt;
 using Newtonsoft.Json;
 
-namespace Contracts.Autorization;
+namespace Contracts.Registraton;
 
-public class LoginRequestDto
+public class RegistrationRequestDto
 {
     [JsonRequired]
     [MinLength(Constants.LogonNameLengthMinimum)]
@@ -15,5 +15,4 @@ public class LoginRequestDto
     [MinLength(Constants.PasswordLengthMinimum)]
     [MaxLength(Constants.PasswordLengthMaximum)]
     public string Password { get; set; }
-
 }

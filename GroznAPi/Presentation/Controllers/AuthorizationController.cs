@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Contracts.Autorization;
 using Jwt;
 using Microsoft.AspNetCore.Http;
@@ -98,10 +95,7 @@ public class AuthorizationController : BaseController
             claims: claims,
             signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
-        return Ok(new
-        {
-            token = new JwtSecurityTokenHandler().WriteToken(token),
-            expiration = token.ValidTo,
-        });
+
+        return Ok(new LoginResponseDto { Token = new JwtSecurityTokenHandler().WriteToken(token), ExpirationTime = token.ValidTo });
     }
 }

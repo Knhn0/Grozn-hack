@@ -12,6 +12,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Presistence;
+using Presentation.Controllers;
+using Repository;
+using Repository.Abstractions;
+using Service;
+using Service.Abstactions;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -111,6 +116,18 @@ builder.Services.AddAuthentication(options =>
         }
     };
 });
+
+
+builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<IThemeSevice, ThemeService>();
+builder.Services.AddScoped<ILessonService, LessonService>();
+builder.Services.AddScoped<ITestService, TestService>();
+
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<IThemeRepository, ThemeRepository>();
+builder.Services.AddScoped<ILessonRepository, LessonRepository>();
+builder.Services.AddScoped<ITestRepository, TestRepository>();
+
 
 builder.Services.AddDbContext<Context>();
 //build
