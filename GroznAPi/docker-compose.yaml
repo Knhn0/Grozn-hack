@@ -1,0 +1,66 @@
+version: '3.3'
+services:
+  database:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: grozn-hack-admin
+      POSTGRES_PASSWORD: grozn-hack-admin
+      POSTGRES_DB: production
+    networks:
+      - backend
+    ports:
+      - "5432:5432"
+    volumes:
+      - database-pg:/var/lib/postgresql/data
+  
+  api:
+    build:
+      context: .
+      dockerfile: GroznApi/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+    depends_on:
+      - database
+    networks:
+      - backend
+    restart: always
+    ports:
+      - "81:80"
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+  nginx:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      # These ports are in format <host-port>:<container-port>
+      - '80:80' # Public HTTP Port
+      - '443:443' # Public HTTPS Port
+      - '82:81' # Admin Web Port
+      # Add any other Stream port you want to expose
+      # - '21:21' # FTP
+
+    # Uncomment the next line if you uncomment anything in the section
+    # environment:
+      # Uncomment this if you want to change the location of
+      # the SQLite DB file within the container
+      # DB_SQLITE_FILE: "/data/database.sqlite"
+
+      # Uncomment this if IPv6 is not enabled on your host
+      # DISABLE_IPV6: 'true'
+
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+
+networks:
+  backend:
+    driver: bridge
+    
+volumes:
+  database-pg:
