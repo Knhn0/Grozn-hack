@@ -56,9 +56,9 @@ public class StudentRepository : IStudentRepository
         return result.State == EntityState.Deleted;
     }
 
-    public async Task<UserInfo> GetUserInfoAsync(int studentId)
+    public async Task<UserInfo> GetUserInfoAsync(int id)
     {
-        var result = await GetByIdAsync(studentId);
+        var result = await GetByIdAsync(id);
         return result.User ?? throw new UserInfoNotFoundException("UserInfo not found");
     }
 
@@ -66,5 +66,26 @@ public class StudentRepository : IStudentRepository
     {
         var result = await _db.Students.FirstOrDefaultAsync(student => student.User.Id == userId);
         return result ?? throw new UserInfoNotFoundException("UserInfo not found");
+    }
+
+    public Task<List<Course>> GetJoinedCoursesAsync(int id)
+    {
+        var result = _db.Courses
+            .Where(course => course.Students
+                .FirstOrDefault(student => student.Id == id) != null);
+        return result.ToListAsync();
+    }
+    
+    public async Task<bool> IsStudentAsync(int userId)
+    {
+        try
+        {
+            await GetByUserIdAsync(userId);
+            return true;
+        }
+        catch (TeacherNotFoundException)
+        {
+            return false;
+        }
     }
 }
