@@ -7,6 +7,8 @@ using Microsoft.Extensions.Options;
 
 namespace Presentation.Controllers;
 
+[Route("[controller]")]
+[ApiController]
 public class RegistrationController : BaseController
 {
     private readonly IConfiguration configuration;
@@ -26,6 +28,7 @@ public class RegistrationController : BaseController
     /// <summary>
     ///  Registers a new user
     /// </summary>
+    [HttpPost]
     public async Task<ActionResult> Register([FromBody] RegistrationRequestDto request)
     {
         return Ok(new RegistrationResponseDto());
