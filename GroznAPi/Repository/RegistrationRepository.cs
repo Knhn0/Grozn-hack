@@ -15,7 +15,8 @@ public class RegistrationRepository : IRegistrationRepository
 
     public async Task<Account> RegisterAsync(Account account)
     {
-        var acc = await _dbContext.Accounts.AddAsync(entity: account);
+        var acc = await _dbContext.Accounts.AddAsync(account);
+        await _dbContext.SaveChangesAsync();
         return acc.Entity;
     }
 }
