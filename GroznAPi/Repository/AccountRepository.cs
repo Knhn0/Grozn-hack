@@ -6,11 +6,11 @@ using Repository.Abstractions;
 
 namespace Repository;
 
-public class UserRepository : IUserRepository
+public class AccountRepository : IAccountRepository
 {
     private readonly Context _db;
 
-    public UserRepository(Context db)
+    public AccountRepository(Context db)
     {
         _db = db;
     }

@@ -3,7 +3,7 @@ using Domain.Entities;
 
 namespace Service.Abstactions;
 
-public interface IUserService : IBaseService<Account>
+public interface IAccountService : IBaseService<Account>
 {
     
 }

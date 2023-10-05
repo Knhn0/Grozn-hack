@@ -5,49 +5,49 @@ using Service.Abstactions;
 
 namespace Service;
 
-public class UserService : IUserService
+public class AccountService : IAccountService
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IAccountRepository _accountRepository;
 
-    public UserService(IUserRepository userRepository)
+    public AccountService(IAccountRepository accountRepository)
     {
-        _userRepository = userRepository;
+        _accountRepository = accountRepository;
     }
 
     public async Task CreateAsync(Account t)
     {
-        await _userRepository.CreateAsync(t);
+        await _accountRepository.CreateAsync(t);
     }
 
     public async Task<Account> UpdateAsync(Account t)
     {
-        var candidate = await _userRepository.GetByIdAsync(t.Id);
+        var candidate = await _accountRepository.GetByIdAsync(t.Id);
         if (candidate == null) throw new Exception("User not found");
         //if (!String.IsNullOrEmpty(t.Email)) candidate.Email = t.Email;
         if (!String.IsNullOrEmpty(t.Username)) candidate.Username = t.Username;
         if (!String.IsNullOrEmpty(t.Password)) candidate.Password = t.Password; // need add hasher
         //if (!String.IsNullOrEmpty(t.Phone)) candidate.Phone = t.Password;
-        await _userRepository.UpdateAsync(candidate);
+        await _accountRepository.UpdateAsync(candidate);
         return candidate;
     }
 
     public async Task<Account?> GetByIdAsync(int id)
     {
-        return await _userRepository.GetByIdAsync(id);
+        return await _accountRepository.GetByIdAsync(id);
     }
 
     public async Task DeleteAsync(Account t)
     {
-        var candidate = await _userRepository.GetByIdAsync(t.Id);
+        var candidate = await _accountRepository.GetByIdAsync(t.Id);
         if (candidate == null)
         {
             throw new Exception("User not found");
         }
-        await _userRepository.DeleteAsync(t);
+        await _accountRepository.DeleteAsync(t);
     }
 
     public async Task<List<Account>> GetAllAsync()
     {
-        return await _userRepository.GetAllAsync();
+        return await _accountRepository.GetAllAsync();
     }
 }

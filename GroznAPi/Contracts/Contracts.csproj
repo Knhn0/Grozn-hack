@@ -14,7 +14,9 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Common\Jwt\Jwt.csproj" />
-
+    <ItemGroup>
+      <Folder Include="UserInfo\" />
+    </ItemGroup>
 
     </ItemGroup>
 
