@@ -6,4 +6,16 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+
+    <ItemGroup>
+      <ProjectReference Include="..\Persistence\Persistence.csproj" />
+      <ProjectReference Include="..\Repository.Abstractions\Repository.Abstractions.csproj" />
+      <ProjectReference Include="..\Service.Abstactions\Service.Abstactions.csproj" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.22" />
+    </ItemGroup>
+
 </Project>
