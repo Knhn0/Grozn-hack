@@ -14,8 +14,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Common\Jwt\Jwt.csproj" />
-
-
     </ItemGroup>
 
 
