@@ -9,4 +9,5 @@ public interface ICourseRepository
     Task<Course> UpdateAsync(Course t);
     Task<Course> CreateAsync(Course t);
     Task<bool> DeleteAsync(Course t);
+    Task<Course> AddStudent(int id, Student student);
 }

@@ -26,6 +26,14 @@ public class CourseRepository : ICourseRepository
         return result ?? throw new Exception("User not found");
     }
 
+    public async Task<Course> AddStudent(int id, Student student)
+    {
+        var dbCourse = await GetByIdAsync(id);
+        dbCourse.Students.Add(student);
+        await _db.SaveChangesAsync();
+        return dbCourse;
+    }
+
     public async Task<Course> UpdateAsync(Course t)
     {
         var dbCourse = await _db.Courses.FirstOrDefaultAsync(x => x.Id == t.Id);
