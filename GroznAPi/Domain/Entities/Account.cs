@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities;
 
-public class User
+public class Account
 {
     public int Id { get; set; }
     public string Username { get; set; } = string.Empty;
@@ -11,4 +11,6 @@ public class User
 
     public string? RefreshToken { get; set; }
     public DateTime RefreshTokenExpiryTime { get; set; }
+    
+    public UserInfo UserInfo { get; set; }
 }

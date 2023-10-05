@@ -15,7 +15,7 @@ public class UserController : BaseController
     }
     
     [HttpGet("get/{userId}")]
-    public async Task<ActionResult<User>> GetUserAsync([Required] int userId)
+    public async Task<ActionResult<Account>> GetUserAsync([Required] int userId)
     {
         if (userId == 0)
         {
@@ -27,7 +27,7 @@ public class UserController : BaseController
     }
     
     [HttpGet("get")]
-    public async Task<ActionResult<User>> GetAllUsersAsync()
+    public async Task<ActionResult<Account>> GetAllUsersAsync()
     {
         var users = await _userService.GetAllAsync();
         return Ok(users);
@@ -52,9 +52,9 @@ public class UserController : BaseController
     }
 
     [HttpPost("create")]
-    public async Task<ActionResult> CreateUser([Required] User user) 
+    public async Task<ActionResult> CreateUser([Required] Account account) 
     {
-        var responce = _userService.CreateAsync(user);
+        var responce = _userService.CreateAsync(account);
         return Ok("User was created");
     }
     

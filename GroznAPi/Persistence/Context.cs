@@ -18,6 +18,6 @@ public class Context : DbContext
         optionsBuilder.UseNpgsql(_configuration.GetConnectionString("Database"));
     }
 
-    public DbSet<User> Users { get; set; }
+    public DbSet<Account> Users { get; set; }
 
 }
