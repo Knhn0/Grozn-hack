@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -19,54 +20,53 @@ builder.Services.AddControllers();
 builder.Services.Configure<JwtIssuerOptions>(builder.Configuration.GetSection(nameof(JwtIssuerOptions)));
 
 
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(swagger =>
+{
+    swagger.OperationFilter<AddResponseHeadersFilter>();
+
+    swagger.SwaggerDoc("v1",
+        new OpenApiInfo
+        {
+            Title = ".NET Core web API + Dapper + Swagger",
+            Version = Assembly.GetExecutingAssembly().GetName().Version?.ToString(),
+            Contact = new()
             {
-                swagger.OperationFilter<AddResponseHeadersFilter>();
+                //Email = "", // Don't think this would be a good idea...
+                Name = "Bryn Lewis",
+                Url = new Uri("https://blog.devMobile.co.nz")
+            },
+            License = new()
+            {
+                Name = "Apache License V2.0",
+                Url = new Uri("http://www.apache.org/licenses/LICENSE-2.0"),
+            }
+        });
 
-                swagger.SwaggerDoc("v1",
-                    new OpenApiInfo
-                    {
-                        Title = ".NET Core web API + Dapper + Swagger",
-                        Version = Assembly.GetExecutingAssembly().GetName().Version?.ToString(),
-                        Contact = new()
-                        {
-                            //Email = "", // Don't think this would be a good idea...
-                            Name = "Bryn Lewis",
-                            Url = new Uri("https://blog.devMobile.co.nz")
-                        },
-                        License = new()
-                        {
-                            Name = "Apache License V2.0",
-                            Url = new Uri("http://www.apache.org/licenses/LICENSE-2.0"),
-                        }
-                    });
+    swagger.AddSecurityDefinition("Bearer", //Name the security scheme
+        new OpenApiSecurityScheme
+        {
+            Description = "JWT Authorization header using the Bearer scheme.",
+            Type = SecuritySchemeType.Http, //We set the scheme type to http since we're using bearer authentication
+            Scheme = "bearer", //The name of the HTTP Authorization scheme to be used in the Authorization header. In this case "bearer"
+            BearerFormat = "JWT",
+        });
 
-                swagger.AddSecurityDefinition("Bearer", //Name the security scheme
-                                     new OpenApiSecurityScheme
-                                     {
-                                         Description = "JWT Authorization header using the Bearer scheme.",
-                                         Type = SecuritySchemeType.Http, //We set the scheme type to http since we're using bearer authentication
-                                         Scheme = "bearer", //The name of the HTTP Authorization scheme to be used in the Authorization header. In this case "bearer"
-                                         BearerFormat = "JWT",
-                                     });
-
-                swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
+    swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
                 {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Id = "Bearer",
-                                Type = ReferenceType.SecurityScheme
-                            }
-                        },
-                        new List<string>()
-                    }
-                });
-            });
+                    Id = "Bearer",
+                    Type = ReferenceType.SecurityScheme
+                }
+            },
+            new List<string>()
+        }
+    });
+});
 builder.Services.AddAuthorization();
 
 
@@ -116,10 +116,9 @@ builder.Services.AddDbContext<Context>();
 //build
 var app = builder.Build();
 
-using (var context = app.Services.GetService<Context>())
-{
-    context.Database.EnsureCreated();
-}
+using (var scope = app.Services.CreateScope())
+using (var context = scope.ServiceProvider.GetService<Context>())
+    context.Database.Migrate();
 
 //swagger
 app.UseSwagger();
