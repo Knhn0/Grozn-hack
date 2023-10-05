@@ -8,5 +8,5 @@ public class JwtIssuerOptions
 
     public string SecretKey { get; set; }
 
-    public TimeSpan TokenExpiresAfter { get; set; }
+    public int TokenExpiresAfterHours { get; set; }
 }

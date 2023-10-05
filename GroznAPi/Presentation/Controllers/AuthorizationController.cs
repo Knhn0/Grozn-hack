@@ -91,7 +91,7 @@ public class AuthorizationController : BaseController
         var token = new JwtSecurityToken(
             issuer: jwtIssuerOptions.Issuer,
             audience: jwtIssuerOptions.Audience,
-            expires: DateTime.UtcNow.Add(jwtIssuerOptions.TokenExpiresAfter),
+            expires: DateTime.UtcNow.AddHours(jwtIssuerOptions.TokenExpiresAfterHours),
             claims: claims,
             signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 

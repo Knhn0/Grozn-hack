@@ -25,24 +25,12 @@ public static class Constants
     /// </summary>
     public const int PasswordLengthMaximum = 40;
 
-    /// <summary>
-    /// Maximum length of a customer's name.
-    /// </summary>
-    public const int CustomerNameLengthMaximum = 100;
+    public const int FirstNameLengthMinimum = 1;
+    public const int FirstNameLengthMaximum = 50;
 
-    /// <summary>
-    /// Maximum number of customers returned by a name search
-    /// </summary>
-    public const int CustomerSearchMaximumRowsToReturn = 100;
-
-    /// <summary>
-    /// Maximum length of StockItem name
-    /// </summary>
-    public const int StockItemNameMaximumLength = 100;
-
-    /// <summary>
-    /// Maximum number of customers returned by a name search
-    /// </summary>
-    public const int StockItemSearchMaximumRowsToReturn = 100;
-
+    public const int SecondNameLengthMinimum = 1;
+    public const int SecondNameLengthMaximum = 50;
+    
+    public const int ThirdNameLengthMinimum = 1;
+    public const int ThirdNameLengthMaximum = 50;
 }
