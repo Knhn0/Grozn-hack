@@ -10,11 +10,11 @@ namespace Service;
 public class CourseService : ICourseService
 {
     private readonly ICourseRepository _courseRepository;
-    private readonly object _userInfoService; // todo: change after user info implementation
+    private readonly IStudentRepository _studentRepository;
 
-    public CourseService(ICourseRepository courseRepository)
+    public CourseService(IStudentRepository studentRepository)
     {
-        _courseRepository = courseRepository;
+        _studentRepository = studentRepository;
     }
     
     public async Task<CourseCreatedResponseDto> CreateCourseAsync(CreateCourseRequestDto request)
@@ -51,7 +51,7 @@ public class CourseService : ICourseService
 
     public async Task<CourseJoinedResponseDto> JoinCourseAsync(JoinCourseRequestDto request, int userId)
     {
-        var student = _userInfoService.GetStudent(userId);
+        var student = await _studentRepository.GetByUserIdAsync(userId);
         if (student is null) throw new StudentNotFoundException("Student with such not found");
         var res = await _courseRepository.AddStudent(request.CourseId, student);
         if (res is null) throw new CourseNotFoundException("Course with such id not found");
