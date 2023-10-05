@@ -3,8 +3,6 @@ namespace Domain.Entities;
 public class StudentTestPercent
 {
     public int Id { get; set; }
-    
-    public int TestId { get; set; }
     public Test Test { get; set; }
     
     public int StudentId { get; set; }
