@@ -5,19 +5,12 @@ using Service.Abstactions;
 
 namespace Service;
 
-<<<<<<<< HEAD:GroznAPi/Service/AcconutService.cs
 public class AcconutService : IAccountService
 {
     private readonly IAccountRepository _accountRepository;
 
     public AcconutService(IAccountRepository accountRepository)
-========
-public class AccountService : IAccountService
-{
-    private readonly IAccountRepository _accountRepository;
 
-    public AccountService(IAccountRepository accountRepository)
->>>>>>>> master:GroznAPi/Service/AccountService.cs
     {
         _accountRepository = accountRepository;
     }
