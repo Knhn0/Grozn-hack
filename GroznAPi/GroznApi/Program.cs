@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Text;
+using Helpers;
 using Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -134,6 +135,8 @@ builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<IAnswerRepository, AnswerRepository>();
+
+builder.Services.AddSingleton<PasswordHasher>();
 
 builder.Services.AddDbContext<Context>();
 //build

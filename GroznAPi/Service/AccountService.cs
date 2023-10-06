@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
+using Contracts.Account;
 using Domain.Entities;
+using Helpers;
 using Repository.Abstractions;
 using Service.Abstactions;
 
@@ -8,16 +10,12 @@ namespace Service;
 public class AccountService : IAccountService
 {
     private readonly IAccountRepository _accountRepository;
+    private readonly PasswordHasher _passwordHasher;
 
-    public AccountService(IAccountRepository accountRepository)
-
+    public AccountService(IAccountRepository accountRepository, PasswordHasher passwordHasher)
     {
         _accountRepository = accountRepository;
-    }
-
-    public async Task CreateAsync(Account t)
-    {
-        await _accountRepository.CreateAsync(t);
+        _passwordHasher = passwordHasher;
     }
 
     public async Task<Account> UpdateAsync(Account t)
@@ -32,23 +30,64 @@ public class AccountService : IAccountService
         return candidate;
     }
 
-    public async Task<Account?> GetByIdAsync(int id)
+    public async Task<AccountDto> GetByIdAsync(int id)
     {
-        return await _accountRepository.GetByIdAsync(id);
+        var candidate = await _accountRepository.GetByIdAsync(id);
+        var response = new AccountDto
+        {
+            Id = candidate.Id,
+            Username = candidate.Username,
+            UserInfo = new UserInfoDto
+            {
+                Id = candidate.UserInfo.Id,
+                FirstName = candidate.UserInfo.FirstName,
+                SecondName = candidate.UserInfo.SecondName,
+                ThirdName = candidate.UserInfo.ThirdName,
+                Role = new RoleDto
+                {
+                    Id = candidate.UserInfo.Role.Id,
+                    Title = candidate.UserInfo.Role.Title
+                }
+            }
+        };
+        return response;
     }
 
-    public async Task DeleteAsync(Account t)
+    public async Task<AccountDeletedResponseDto> DeleteAsync(DeleteAccountRequestDto request)
     {
-        var candidate = await _accountRepository.GetByIdAsync(t.Id);
+        var candidate = await _accountRepository.GetByIdAsync(request.Id);
         if (candidate == null)
         {
             throw new Exception("User not found");
         }
-        await _accountRepository.DeleteAsync(t);
+        var upd = await _accountRepository.DeleteAsync(candidate);
+        return new AccountDeletedResponseDto
+        {
+            Deleted = upd,
+            Id = candidate.Id
+        };
     }
 
-    public async Task<List<Account>> GetAllAsync()
+    public async Task<List<AccountDto>> GetAllAsync()
     {
-        return await _accountRepository.GetAllAsync();
+        var candidates = await _accountRepository.GetAllAsync();
+        var result = candidates.Select(candidate => new AccountDto
+        {
+            Id = candidate.Id,
+            Username = candidate.Username,
+            UserInfo = new UserInfoDto
+            {
+                Id = candidate.UserInfo.Id,
+                FirstName = candidate.UserInfo.FirstName,
+                SecondName = candidate.UserInfo.SecondName,
+                ThirdName = candidate.UserInfo.ThirdName,
+                Role = new RoleDto
+                {
+                    Id = candidate.UserInfo.Role.Id,
+                    Title = candidate.UserInfo.Role.Title
+                }
+            }
+        });
+        return result.ToList();
     }
 }

@@ -22,7 +22,19 @@ public class TestController : BaseController
     [HttpGet("all")]
     public async Task<ActionResult<List<Test>>> GetAllTests()
     {
-        return await _testService.GetAllTests();
+        return await _testService.GetAllTestsAsync();
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Test>> GetTestById([FromQuery] int id)
+    {
+        return await _testService.GetTestByIdAsync(id);
+    }
+
+    [HttpGet("by-lesson/{id}")]
+    public async Task<ActionResult<List<Test>>> GetTestByLessonId([FromQuery] int id)
+    {
+        return await _testService.GetTestsByLessonAsync(id);
     }
 
     [HttpPost]

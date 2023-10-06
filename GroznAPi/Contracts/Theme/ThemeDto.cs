@@ -1,6 +1,6 @@
-﻿namespace Contracts.Theme;
+namespace Contracts.Theme;
 
-public class CreateThemeResponseDto
+public class ThemeDto
 {
     public int Id { get; set; }
     public string Title { get; set; }

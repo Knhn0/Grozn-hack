@@ -43,16 +43,18 @@ public class AccountRepository : IAccountRepository
         return u;
     }
 
-    public async Task CreateAsync(Account t)
+    public async Task<Account> CreateAsync(Account t)
     {
         t.Password = new PasswordHasher().HashPassword(t.Password);
-        await _db.Accounts.AddAsync(t);
+        var res = await _db.Accounts.AddAsync(t);
         await _db.SaveChangesAsync();
+        return res.Entity;
     }
 
-    public async Task DeleteAsync(Account t)
+    public async Task<bool> DeleteAsync(Account t)
     {
-        _db.Accounts.Remove(t); //may not work
+        var result = _db.Accounts.Remove(t);
         await _db.SaveChangesAsync();
+        return result.State == EntityState.Deleted;
     }
 }

@@ -26,38 +26,43 @@ public class ThemeController : BaseController
     [HttpGet("/{themeId}")]
     public async Task<ActionResult<GetThemeResponseDto>> GetUserAsync([Required] GetThemeRequestDto req)
     {
-        if (req.themeId == 0)
+        if (req.ThemeId == 0)
         {
             return BadRequest("Invalid id");
         }
-        var resp = await _themeService.GetTheme(req.themeId);
+        var resp = await _themeService.GetThemeAsync(req.ThemeId);
         return Ok(resp);
     }
 
     [HttpGet]
     public async Task<ActionResult<GetLessonsResponseDto>> GetLessons()
     {
-        var resp = await _themeService.GetLessons();
+        var resp = await _themeService.GetLessonsAsync();
         return Ok(resp);
     }
 
     [HttpPost]
     public async Task<ActionResult<CreateThemeResponseDto>> CreateTheme([Required] CreateThemeRequestDto req)
     {
-        var resp = await _themeService.CreateTheme(req);
+        var resp = await _themeService.CreateThemeAsync(req);
         return Ok(resp);
     }
 
     [HttpDelete]
     public async Task DeleteTheme([Required] DeleteThemeRequestDto req)
     {
-        await _themeService.DeleteTheme(req);
+        await _themeService.DeleteThemeAsync(req);
     }
 
     [HttpPut]
     public async Task<ActionResult<UpdateThemeResponseDto>> UpdateTheme([Required] UpdateThemeRequestDto req)
     {
-       return await _themeService.UpdateTheme(req);
+       return await _themeService.UpdateThemeAsync(req);
     }
-    
+
+    [HttpGet("by-course/{courseId}")]
+    public async Task<ActionResult<List<ThemeDto>>> GetByCourseId([FromQuery] int courseId)
+    {
+        return await _themeService.GetThemesByCourseId(courseId);
+    }
 }

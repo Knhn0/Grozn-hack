@@ -6,7 +6,7 @@ namespace Service.Abstactions;
 public interface ITestService
 {
     Task<TestCreatedResponse> CreateTestAsync(CreateTestRequestDto request);
-    Task<List<Test>> GetAllTests();
-    Task<List<Test>> GetTestsByLesson();
-    
+    Task<List<Test>> GetAllTestsAsync();
+    Task<List<Test>> GetTestsByLessonAsync(int lessonId);
+    Task<Test> GetTestByIdAsync(int id);
 }

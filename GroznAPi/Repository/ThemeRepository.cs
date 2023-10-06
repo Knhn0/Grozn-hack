@@ -19,6 +19,11 @@ public class ThemeRepository : IThemeRepository
         return await _db.Lessons.ToListAsync();
     }
 
+    public async Task<List<Theme>> GetAllAsync()
+    {
+        return await _db.Themes.ToListAsync();
+    }
+
     public async Task<Theme?> GetByIdAsync(int id)
     {
         var res = await _db.Themes.FirstOrDefaultAsync(x =>x.Id == id);
@@ -37,19 +42,19 @@ public class ThemeRepository : IThemeRepository
 
     public async Task<Theme> CreateAsync(Theme t)
     {
-        await _db.Themes.AddAsync(t);
+        var res = await _db.Themes.AddAsync(t);
         await _db.SaveChangesAsync();
-        return t;
+        return res.Entity;
+    }
+    public async Task<bool> DeleteAsync(Theme t)
+    {
+        var res = _db.Themes.Remove(t);
+        await _db.SaveChangesAsync();
+        return res.State == EntityState.Deleted;
     }
 
-    public Task DeleteAsync(int id)
+    public async Task<List<Theme>> GetByCourseId(int courseId)
     {
-        throw new NotImplementedException();
-    }
-
-    public async Task DeleteAsync(Theme t)
-    {
-        _db.Themes.Remove(t);
-        await _db.SaveChangesAsync();
+        return await _db.Themes.FromSqlRaw($"SELECT * FROM Themes WHERE CourseId = ${courseId}").ToListAsync();
     }
 }

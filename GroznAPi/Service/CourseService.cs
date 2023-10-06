@@ -1,4 +1,5 @@
 using Contracts.Course;
+using Contracts.Theme;
 using Domain.Entities;
 using Exceptions;
 using Exceptions.Implementation;
@@ -65,9 +66,9 @@ public class CourseService : ICourseService
     public async Task<GetThemesResponseDto> GetThemesAsync(GetThemesRequestDto request)
     {
         var themes = await _courseRepository.GetThemesById(request.CourseId);
-        var dtos = themes.Select(t => new GetThemesResponseDto.ThemeDto
+        var dtos = themes.Select(t => new ThemeDto
         {
-            Title = t.Title, Description = t.Description
+            Title = t.Title, Description = t.Description, Id = t.Id
         }).ToList();
         return new GetThemesResponseDto
         {
