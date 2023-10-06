@@ -1,14 +1,15 @@
 ﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Presistence;
 using Repository.Abstractions;
 
 namespace Repository;
 
-public class RegistrationRepository : IRegistrationRepository
+public class AuthorizationRepository : IAuthorizationRepository
 {
     private readonly Context _dbContext;
 
-    public RegistrationRepository(Context dbContext)
+    public AuthorizationRepository(Context dbContext)
     {
         _dbContext = dbContext;
     }
@@ -20,15 +21,15 @@ public class RegistrationRepository : IRegistrationRepository
         {
             case "Student":
             {
-                var student = new Student {User = acc.Entity.UserInfo};
-            
+                var student = new Student { User = acc.Entity.UserInfo };
+
                 await _dbContext.Students.AddAsync(student);
                 break;
             }
             case "Teacher":
             {
-                var teacher = new Teacher {UserInfo = acc.Entity.UserInfo};
-            
+                var teacher = new Teacher { UserInfo = acc.Entity.UserInfo };
+
                 await _dbContext.Teachers.AddAsync(teacher);
                 break;
             }
@@ -36,5 +37,17 @@ public class RegistrationRepository : IRegistrationRepository
 
         await _dbContext.SaveChangesAsync();
         return acc.Entity;
+    }
+
+    public async Task<bool> CheckRegistration(Account account)
+    {
+        var acc = await _dbContext.Accounts.FirstOrDefaultAsync(x => x.Username == account.Username);
+        return acc == null;
+    }
+
+    public async Task<Account> Login(Account account)
+    {
+        var acc = await _dbContext.Accounts.FirstOrDefaultAsync(x => x.Username == account.Username && x.Password == account.Password);
+        return acc;
     }
 }

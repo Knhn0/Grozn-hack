@@ -9,6 +9,7 @@ public class RegistrationRequestDto
     [JsonRequired]
     [MinLength(Constants.LogonNameLengthMinimum)]
     [MaxLength(Constants.LogonNameLengthMaximum)]
+    [EmailAddress]
     public string Username { get; set; }
 
     [JsonRequired]

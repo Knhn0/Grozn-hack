@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Service.Abstactions;
 
 namespace Presentation.Controllers;
 
@@ -16,18 +17,14 @@ namespace Presentation.Controllers;
 [ApiController]
 public class AuthorizationController : BaseController
 {
-    private readonly IConfiguration configuration;
-    private readonly ILogger<AuthorizationController> logger;
-    private readonly JwtIssuerOptions jwtIssuerOptions;
+    private readonly IAuthorizationService _authorizationService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AuthenticationController"/> class.
     /// </summary>
-    public AuthorizationController(IConfiguration configuration, ILogger<AuthorizationController> logger, IOptions<JwtIssuerOptions> jwtIssuerOptions)
+    public AuthorizationController(IAuthorizationService authorizationService)
     {
-        this.configuration = configuration;
-        this.logger = logger;
-        this.jwtIssuerOptions = jwtIssuerOptions.Value;
+        _authorizationService = authorizationService;
     }
 
     /// <summary>
@@ -41,61 +38,8 @@ public class AuthorizationController : BaseController
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult> Logon([FromBody] LoginRequestDto request)
+    public async Task<ActionResult> Login([FromBody] LoginRequestDto request)
     {
-        var claims = new List<Claim>();
-
-        //PersonAuthenticateLogonDetailsDto userLogonUserDetails;
-        IEnumerable<string> permissions;
-
-        // using (SqlConnection db = new SqlConnection(configuration.GetConnectionString("WorldWideImportersDatabase")))
-        // {
-        //     userLogonUserDetails = await db.QuerySingleOrDefaultWithRetryAsync<PersonAuthenticateLogonDetailsDto>("[Website].[PersonAuthenticateLookupByLogonNameV2]",
-        //         param: request, commandType: CommandType.StoredProcedure);
-        //     if (userLogonUserDetails == null)
-        //     {
-        //         logger.LogWarning("Login attempt by user {LogonName} failed", request.LogonName);
-        //
-        //         return this.Unauthorized();
-        //     }
-        //
-        //     // Lookup the Person's permissions
-        //     // permissions = await db.QueryWithRetryAsync<string>("[Website].[PersonPermissionsByPersonIdV1]", new { userLogonUserDetails.PersonID },
-        //     //     commandType: CommandType.StoredProcedure);
-        // }
-
-        // Setup the primary SID + name info
-        // claims.Add(new Claim(ClaimTypes.PrimarySid, userLogonUserDetails.PersonID.ToString()));
-        // if (userLogonUserDetails.IsSystemUser)
-        // {
-        //     claims.Add(new Claim(ClaimTypes.Role, "SystemUser"));
-        // }
-        //
-        // if (userLogonUserDetails.IsEmployee)
-        // {
-        //     claims.Add(new Claim(ClaimTypes.Role, "Employee"));
-        // }
-        //
-        // if (userLogonUserDetails.IsSalesPerson)
-        // {
-        //     claims.Add(new Claim(ClaimTypes.Role, "SalesPerson"));
-        // }
-
-        // foreach (string permission in permissions)
-        // {
-        //     claims.Add(new Claim(ClaimTypes.Role, permission));
-        // }
-
-        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtIssuerOptions.SecretKey));
-
-        var token = new JwtSecurityToken(
-            issuer: jwtIssuerOptions.Issuer,
-            audience: jwtIssuerOptions.Audience,
-            expires: DateTime.UtcNow.AddHours(jwtIssuerOptions.TokenExpiresAfterHours),
-            claims: claims,
-            signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
-
-
-        return Ok(new LoginResponseDto { Token = new JwtSecurityTokenHandler().WriteToken(token), ExpirationTime = token.ValidTo });
+       return await _authorizationService.Login(request);
     }
 }
