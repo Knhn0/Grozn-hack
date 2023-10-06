@@ -28,4 +28,8 @@
       <Compile Remove="Migrations\ContextModelSnapshot.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Migrations\" />
+    </ItemGroup>
+
 </Project>

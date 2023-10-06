@@ -3,14 +3,15 @@ using Contracts.Account;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Service;
+using Service.Abstactions;
 
 namespace Presentation.Controllers;
 
 public class AccountController : BaseController
 {
-    private readonly AccountService _accountService;
+    private readonly IAccountService _accountService;
 
-    public AccountController(AccountService accountService)
+    public AccountController(IAccountService accountService)
     {
         _accountService = accountService;
     }

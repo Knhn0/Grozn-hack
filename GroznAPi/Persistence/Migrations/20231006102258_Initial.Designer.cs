@@ -12,8 +12,8 @@ using Presistence;
 namespace Presistence.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231006041257_baza")]
-    partial class baza
+    [Migration("20231006102258_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -88,7 +88,7 @@ namespace Presistence.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Answer");
+                    b.ToTable("Answers");
                 });
 
             modelBuilder.Entity("Domain.Entities.Course", b =>
