@@ -1,25 +1,23 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using Contracts.Account;
+using Contracts.Autorization;
 using Contracts.Registraton;
 using Domain.Entities;
-using Jwt;
-using Microsoft.IdentityModel.Tokens;
 using Repository.Abstractions;
 using Service.Abstactions;
 
 namespace Service;
 
-public class RegistrationService : IRegistrationService
+public class AuthorizationService : IAuthorizationService
 {
-    private readonly IRegistrationRepository _registrationRepository;
+    private readonly IAuthorizationRepository _authorizationRepository;
     private readonly IRoleService _roleService;
     private readonly IJwtService _jwtService;
 
-    public RegistrationService(IRegistrationRepository registrationRepository, IRoleService roleService, IJwtService jwtService)
+    public AuthorizationService(IAuthorizationRepository authorizationRepository, IRoleService roleService, IJwtService jwtService)
     {
-        _registrationRepository = registrationRepository;
+        _authorizationRepository = authorizationRepository;
         _roleService = roleService;
         _jwtService = jwtService;
     }
@@ -44,8 +42,12 @@ public class RegistrationService : IRegistrationService
             RefreshToken = new JwtSecurityTokenHandler().WriteToken(refreshToken),
             RefreshTokenExpiryTime = refreshToken.ValidTo
         };
+        if (!await _authorizationRepository.CheckRegistration(account))
+        {
+            throw new Exception("This login is already taken");
+        }
 
-        var accountReg = await _registrationRepository.RegisterAsync(account);
+        var accountReg = await _authorizationRepository.RegisterAsync(account);
         var claims = new List<Claim> { new(ClaimTypes.Role, role.Title), new(ClaimTypes.UserData, accountReg.Id.ToString()) };
 
 
@@ -75,5 +77,31 @@ public class RegistrationService : IRegistrationService
         };
 
         return response;
+    }
+
+    public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
+    {
+        if (loginRequestDto == null)
+        {
+            throw new Exception("Invalid credentials");
+        }
+
+        var account = await _authorizationRepository.Login(new Account
+        {
+            Username = loginRequestDto.UserName,
+            Password = loginRequestDto.Password
+        });
+
+        var claims = new List<Claim> { new(ClaimTypes.Role, account.UserInfo.Role.Title), new(ClaimTypes.UserData, account.Id.ToString()) };
+
+
+        var token = _jwtService.CreateJwtToken(claims);
+
+
+        return new LoginResponseDto
+        {
+            Token = new JwtSecurityTokenHandler().WriteToken(token),
+            TokenExpiryTime = token.ValidTo
+        };
     }
 }

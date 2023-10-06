@@ -16,17 +16,17 @@ public class RegistrationController : BaseController
     private readonly ILogger<RegistrationController> _logger;
     private readonly JwtIssuerOptions _jwtIssuerOptions;
 
-    private readonly IRegistrationService _registrationService;
+    private readonly IAuthorizationService _authorizationService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AuthenticationController"/> class.
     /// </summary>
     public RegistrationController(IConfiguration configuration, ILogger<RegistrationController> logger, IOptions<JwtIssuerOptions> jwtIssuerOptions,
-        IRegistrationService registrationService)
+        IAuthorizationService authorizationService)
     {
         this._configuration = configuration;
         this._logger = logger;
-        this._registrationService = registrationService;
+        this._authorizationService = authorizationService;
         this._jwtIssuerOptions = jwtIssuerOptions.Value;
     }
 
@@ -36,7 +36,7 @@ public class RegistrationController : BaseController
     [HttpPost]
     public async Task<IActionResult> Register([FromBody] RegistrationRequestDto request)
     {
-        var response = await _registrationService.RegisterAsync(request);
+        var response = await _authorizationService.RegisterAsync(request);
         return Ok(response);
     }
 }

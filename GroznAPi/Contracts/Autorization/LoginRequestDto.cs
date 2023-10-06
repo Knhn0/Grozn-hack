@@ -9,7 +9,8 @@ public class LoginRequestDto
     [JsonRequired]
     [MinLength(Constants.LogonNameLengthMinimum)]
     [MaxLength(Constants.LogonNameLengthMaximum)]
-    public string Login { get; set; }
+    [EmailAddress]
+    public string UserName { get; set; }
 
     [JsonRequired]
     [MinLength(Constants.PasswordLengthMinimum)]

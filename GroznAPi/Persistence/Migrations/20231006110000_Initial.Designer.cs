@@ -12,8 +12,8 @@ using Presistence;
 namespace Presistence.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231006102312_role")]
-    partial class role
+    [Migration("20231006110000_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
