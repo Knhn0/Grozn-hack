@@ -84,7 +84,9 @@ public class TestRepository : ITestRepository
         
         var id = list.FirstOrDefault().Id;
         
-        return await _db.Courses.FirstOrDefaultAsync(id);
+        var candidate = await _db.Courses.FirstOrDefaultAsync(c => c.Id == id);
+        if (candidate is null) throw new CourseNotFoundException("Course not found");
+        return candidate;
     }
 
     public async Task<List<Question>> GetQuestionsAsync(int id)
