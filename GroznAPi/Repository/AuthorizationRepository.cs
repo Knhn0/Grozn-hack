@@ -47,7 +47,8 @@ public class AuthorizationRepository : IAuthorizationRepository
 
     public async Task<Account> Login(Account account)
     {
-        var acc = await _dbContext.Accounts.FirstOrDefaultAsync(x => x.Username == account.Username && x.Password == account.Password);
+        var acc = await _dbContext.Accounts.Include(x => x.UserInfo).Include(x => x.UserInfo.Role).FirstOrDefaultAsync(x => x.Username == account.Username && x.Password == account
+            .Password);
         return acc;
     }
 }

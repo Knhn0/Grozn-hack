@@ -1,14 +1,6 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Contracts.Autorization;
-using Jwt;
+﻿using Contracts.Autorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using Service.Abstactions;
 
 namespace Presentation.Controllers;
@@ -40,6 +32,6 @@ public class AuthorizationController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult> Login([FromBody] LoginRequestDto request)
     {
-       return await _authorizationService.Login(request);
+        return Ok(await _authorizationService.Login(request));
     }
 }
