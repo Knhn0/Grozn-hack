@@ -139,4 +139,30 @@ public class LessonService : ILessonService
             Theme = res.Theme
         };
     }
+
+    public async Task<GetLessonsPercentResponseDto> GetLessonsPercentByThemeId(int themeId, int studentId)
+    {
+        var lessons = await _lessonRepository.GetLessonsByThemeIdAsync(themeId);
+        var listOfLessonPercentDtos = new List<LessonPercentDto>();
+        var res = new GetLessonsPercentResponseDto();
+        
+        for (int i = 0; i < lessons.Count(); i++)
+        {
+            var testPercents = await _testPercentRepository.GetTestPercentsByLessonId(lessons[i].Id, studentId);
+            double percent = 0;
+            foreach (var testPercent in testPercents)
+            {
+                percent += testPercent.Percent / testPercents.Count();
+            }
+
+            var lessonPercentDto = new LessonPercentDto();
+            lessonPercentDto.Percent = percent;
+            lessonPercentDto.Title = lessons[i].Title;
+            
+            listOfLessonPercentDtos.Add(lessonPercentDto);
+        }
+        res.lessons = listOfLessonPercentDtos;
+        return res;
+    }
+    
 }

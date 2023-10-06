@@ -21,4 +21,11 @@ public class TestPercentRepository: ITestPercentRepository
         return testPercentTests;
     }
 
+    public Task<List<StudentTestPercent>> GetTestPercentsByLessonId(int lessonId, int studentId)
+    {
+        var percentTests = _db.StudentTestPercents
+            .FromSqlRaw(@"select ""StudentTestPercents"".* from ""StudentTestPercents"" join ""Tests"" on  ""StudentTestPercents"".""TestId"" = ""Tests"".""Id"" where ""LessonId"" = {0} and ""StudentTestPercents"".""StudentId"" = {1} ", lessonId, studentId)
+            .ToListAsync();
+        return percentTests;
+    }
 }

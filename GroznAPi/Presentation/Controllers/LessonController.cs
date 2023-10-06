@@ -68,5 +68,11 @@ public class LessonController: BaseController
         return await _lessonService.UpdateLesson(req);
         
     }
+
+    [HttpPost("lesson/getPercents")]
+    public async Task<ActionResult<GetLessonsPercentResponseDto>> GetLEssonsPercentByThemeId([FromBody] GetLessonsPercentRequest req)
+    {
+        return await _lessonService.GetLessonsPercentByThemeId(req.ThemeId, req.StudentId);
+    }
     
 }

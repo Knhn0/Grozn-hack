@@ -19,4 +19,6 @@ public interface ILessonService
 
     Task<GetLessonThemeResponseDto> GetTheme(GetLessonThemeRequestDto req);
 
+    Task<GetLessonsPercentResponseDto> GetLessonsPercentByThemeId(int themeId, int studentId);
+
 }
