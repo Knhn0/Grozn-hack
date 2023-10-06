@@ -6,4 +6,5 @@ public class Question
     public string Title { get; set; }
     public Test Test { get; set; }
     public Resource Resource { get; set; }
+    public ICollection<Answer> Answers { get; set; }
 }

@@ -22,5 +22,9 @@ public class QuestionConfiguration : IEntityTypeConfiguration<Question>
             .WithOne()
             .HasForeignKey<Test>(test => test.Id)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.OwnsMany(question => question.Answers)
+            .WithOwner()
+            .HasForeignKey(answer => answer.QuestionId);
     }
 }
