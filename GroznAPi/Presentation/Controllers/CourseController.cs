@@ -53,8 +53,8 @@ public class CourseController : BaseController
     [HttpDelete]
     public async Task<ActionResult<CourseRemovedResponseDto>> DeleteCourse(RemoveCourseRequestDto request)
     {
-        if (Role == "admin") return await _courseService.RemoveCourseForcedAsync(request);
-        if (Role == "teacher")
+        if (Role == "Admin") return await _courseService.RemoveCourseForcedAsync(request);
+        if (Role == "Teacher")
         {
             var userInfo = await _accountService.GetByIdAsync(AccountId);
             return await _courseService.RemoveCourseAsync(request, userInfo.Id);
