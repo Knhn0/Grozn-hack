@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Contracts.Account;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service;
 using Service.Abstactions;
@@ -16,6 +17,7 @@ public class AccountController : BaseController
         _accountService = accountService;
     }
 
+    [Authorize]
     [HttpGet("me")]
     public async Task<ActionResult<AccountDto>> GetIdentity()
     {
