@@ -9,4 +9,6 @@ public interface ILessonRepository
     Task<Lesson> UpdateAsync(Lesson t);
     Task<Lesson> CreateAsync(Lesson t);
     Task<bool> DeleteAsync(Lesson t);
+
+    Task<List<Lesson>> GetLessonsByThemeIdAsync(int themeId);
 }

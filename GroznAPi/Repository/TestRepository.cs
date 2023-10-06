@@ -55,4 +55,10 @@ public class TestRepository : ITestRepository
         await _db.SaveChangesAsync();
         return result.State == EntityState.Deleted;
     }
+
+    public async Task<List<Test>> GetAllTestsByLessonIdAsync(int lessonId)
+    {
+        var result =  await _db.Tests.Where(t => t.Lesson.Id == lessonId).ToListAsync();
+        return result ?? throw new TestNotFoundException("Tests not found");
+    }
 }
