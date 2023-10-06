@@ -150,7 +150,7 @@ builder.Services.RegisterYandexObjectStorage();
 builder.Services.Configure<YandexObjectStorageOptions>(y =>
 {
     y.UserKey = "YCNC6whQumS5VAxPblEU6v81FWbCcvU7Xmt0thUg";
-    y.UserId = "aje04m5dj5t2kqpfjjdh";
+    y.UserId = "YCAJEP73J9gjQVZoEgkMUuce3";
     y.ServiceUrl = "https://s3.yandexcloud.net";
     y.Bucket = "grozn-hack";
 });

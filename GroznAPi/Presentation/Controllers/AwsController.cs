@@ -1,4 +1,6 @@
 using CodePackage.Yandex.Storage;
+using Contracts.Aws;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers;
@@ -8,15 +10,38 @@ namespace Presentation.Controllers;
 public class AwsController : BaseController
 {
     private readonly IYandexObjectStorageManager _storage;
+    private static string BaseUrl => "https://storage.yandexcloud.net/grozn-hack/";
 
     public AwsController(IYandexObjectStorageManager storage)
     {
         _storage = storage;
     }
 
-    [HttpGet]
-    public async Task<ActionResult> Get()
+    [HttpPost]
+    public async Task<ActionResult> UploadFile(IFormFile formFile)
     {
-        return Ok(await _storage.Get("ололол (1).pdf"));
+        using var memoryStream = new MemoryStream();
+        await formFile.CopyToAsync(memoryStream);
+
+        try
+        {
+            await _storage.Put(formFile.Name, memoryStream);
+            return Ok(new AwsFileUploadedResponse
+            {
+                IsUploaded = true,
+                File = new AwsFileDto
+                {
+                    Url = BaseUrl + formFile.Name
+                }
+            });
+        }
+        catch
+        {
+            return Ok(new AwsFileUploadedResponse
+            {
+                IsUploaded = false,
+                File = null
+            });
+        }
     }
 }
