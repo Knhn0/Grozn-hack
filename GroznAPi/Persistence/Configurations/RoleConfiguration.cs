@@ -14,5 +14,16 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.Property(role => role.Id).ValueGeneratedOnAdd();
 
         builder.Property(role => role.Title).HasMaxLength(32);
+
+        builder.HasData(new Role
+        {
+            Title = "Teacher"
+        }, new Role
+        {
+            Title = "Admin"
+        }, new Role
+        {
+            Title = "Student"
+        });
     }
 }

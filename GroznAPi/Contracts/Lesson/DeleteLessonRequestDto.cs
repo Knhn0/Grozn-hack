@@ -1,6 +1,6 @@
 ﻿namespace Contracts.Lesson;
 
-public class CreateLessonRequestDto
+public class DeleteLessonRequestDto
 {
     public int LessonId { get; set; }
     public string Title { get; set; }

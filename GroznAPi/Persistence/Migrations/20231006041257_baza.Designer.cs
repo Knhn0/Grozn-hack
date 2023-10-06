@@ -12,8 +12,8 @@ using Presistence;
 namespace Presistence.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231005183004_Initial")]
-    partial class Initial
+    [Migration("20231006041257_baza")]
+    partial class baza
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,6 +64,31 @@ namespace Presistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Answer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsRight")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("Answer");
                 });
 
             modelBuilder.Entity("Domain.Entities.Course", b =>
@@ -239,9 +264,6 @@ namespace Presistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("UserInfoId")
                         .HasColumnType("integer");
 
@@ -355,6 +377,17 @@ namespace Presistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Entities.Answer", b =>
+                {
+                    b.HasOne("Domain.Entities.Question", "Question")
+                        .WithMany("Answers")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
             modelBuilder.Entity("Domain.Entities.Course", b =>
                 {
                     b.HasOne("Domain.Entities.Teacher", "Teacher")
@@ -369,7 +402,7 @@ namespace Presistence.Migrations
             modelBuilder.Entity("Domain.Entities.Lesson", b =>
                 {
                     b.HasOne("Domain.Entities.Theme", "Theme")
-                        .WithMany()
+                        .WithMany("Lessons")
                         .HasForeignKey("ThemeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -487,6 +520,11 @@ namespace Presistence.Migrations
                     b.Navigation("Themes");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Question", b =>
+                {
+                    b.Navigation("Answers");
+                });
+
             modelBuilder.Entity("Domain.Entities.Student", b =>
                 {
                     b.Navigation("StudentTestPercents");
@@ -495,6 +533,11 @@ namespace Presistence.Migrations
             modelBuilder.Entity("Domain.Entities.Teacher", b =>
                 {
                     b.Navigation("Courses");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Theme", b =>
+                {
+                    b.Navigation("Lessons");
                 });
 #pragma warning restore 612, 618
         }

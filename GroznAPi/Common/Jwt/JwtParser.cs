@@ -1,34 +1,28 @@
-﻿using System.Security.Claims;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using Newtonsoft.Json.Linq;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Jwt;
 
-public class JwtParser
+public static class JwtParser
 {
-    public static string GetRole(string jwtInput)
+    public static string GetRole(this string token)
     {
-        return GetParameter<string>(jwtInput, nameof(ClaimTypes.Role));
-    }
-    
-    public static int GetAccountId(string jwtInput)
-    {
-        return GetParameter<int>(jwtInput, nameof(ClaimTypes.UserData));
+        return ParserToken(token, "role");
     }
 
-
-    private static T GetParameter<T>(string jwtInput, string parameterKey)
+    public static int GetAccountId(this string token)
     {
-        if (string.IsNullOrWhiteSpace(jwtInput))
-        {
-            return default(T);
-        }
+        return int.Parse(ParserToken(token, "userdata"));
+    }
 
-        var removeBearer = jwtInput.Split(' ')[1];
-        var getPayload = removeBearer.Split('.')[1];
-        var base64EncodedBytes = Convert.FromBase64String(getPayload);
-        var parsedPayload = Encoding.UTF8.GetString(base64EncodedBytes);
-        var jObject = JObject.Parse(parsedPayload);
-        return jObject[parameterKey] != null ? jObject[parameterKey].ToObject<T>() : default(T);
+    private static string ParserToken(this string token, string role)
+    {
+        var removeBearer = token.Split(' ')[1];
+        var handler = new JwtSecurityTokenHandler();
+        var tokenData = handler.ReadJwtToken(removeBearer);
+        var s = tokenData.Payload;
+        var t = s.Claims.FirstOrDefault(c => c.Type.Split('/').Last() == role).Value;
+        return t;
     }
 }

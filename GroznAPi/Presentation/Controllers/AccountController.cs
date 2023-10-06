@@ -7,11 +7,11 @@ namespace Presentation.Controllers;
 
 public class AccountController : BaseController
 {
-    private readonly AcconutService _acconutService;
+    private readonly AccountService _accountService;
 
-    public AccountController(AcconutService acconutService)
+    public AccountController(AccountService accountService)
     {
-        _acconutService = acconutService;
+        _accountService = accountService;
     }
     
     [HttpGet("get/{userId}")]
@@ -22,14 +22,14 @@ public class AccountController : BaseController
             return BadRequest("Invalid id");
         }
 
-        var user = await _acconutService.GetByIdAsync(userId);
+        var user = await _accountService.GetByIdAsync(userId);
         return Ok(user);
     }
     
     [HttpGet("get")]
     public async Task<ActionResult<Account>> GetAllUsersAsync()
     {
-        var users = await _acconutService.GetAllAsync();
+        var users = await _accountService.GetAllAsync();
         return Ok(users);
     }
     
@@ -41,20 +41,20 @@ public class AccountController : BaseController
             return BadRequest("Invalid id");
         }
 
-        var user = await _acconutService.GetByIdAsync(userId);
+        var user = await _accountService.GetByIdAsync(userId);
         
         if (user == null)
         {
             return BadRequest("User not found");
         }
-        var response = _acconutService.DeleteAsync(user);
+        var response = _accountService.DeleteAsync(user);
         return Ok("User successfully deleted");
     }
 
     [HttpPost("create")]
     public async Task<ActionResult> CreateUser([Required] Account account) 
     {
-        var responce = _acconutService.CreateAsync(account);
+        var responce = _accountService.CreateAsync(account);
         return Ok("User was created");
     }
     

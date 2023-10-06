@@ -15,8 +15,7 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
         builder.HasOne(student => student.User)
             .WithOne()
             .HasForeignKey<UserInfo>(info => info.Id);
-
-
+        
         builder.OwnsMany(student => student.Courses)
             .WithOwner()
             .HasForeignKey(course => course.Id);
