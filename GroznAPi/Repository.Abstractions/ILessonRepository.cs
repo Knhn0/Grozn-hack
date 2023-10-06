@@ -8,5 +8,6 @@ public interface ILessonRepository
     Task<Lesson> GetByIdAsync(int id);
     Task<Lesson> UpdateAsync(Lesson t);
     Task<Lesson> CreateAsync(Lesson t);
-    Task<bool> DeleteAsync(Lesson t);
+    Task<Lesson> DeleteAsync(Lesson t);
+    
 }
