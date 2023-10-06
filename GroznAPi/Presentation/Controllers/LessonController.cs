@@ -1,9 +1,14 @@
-﻿using Contracts.Lesson;
+﻿using System.ComponentModel.DataAnnotations;
+using Contracts.Lesson;
+using Contracts.Theme;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Repository.Abstractions;
 using Service.Abstactions;
 
 namespace Presentation.Controllers;
+
 
 [Route("[controller]")]
 [ApiController]
@@ -41,7 +46,7 @@ public class LessonController : BaseController
     }
 
     [HttpGet("all")]
-    public async Task<ActionResult<GetLessonsResponseDto>> GetLessons()
+    public async Task<ActionResult> GetLessons()
     {
         var resp = await _lessonService.GetAllAsync();
         return Ok(resp);
@@ -56,10 +61,11 @@ public class LessonController : BaseController
     }
 
     [HttpPut]
-    public async Task<ActionResult<UpdateLessonResponseDto>> UpdateLesson([FromBody] UpdateLessonRequestDto req)
+    public async Task<ActionResult> UpdateLesson([FromBody] UpdateLessonRequestDto req)
     {
         if (Role == "Student") return BadRequest("Invalid account type");
-        return await _lessonService.UpdateLesson(req);
+        var resp = await _lessonService.UpdateLesson(req);
+        return Ok(resp);
     }
     
     [HttpPost("getPercents")]
