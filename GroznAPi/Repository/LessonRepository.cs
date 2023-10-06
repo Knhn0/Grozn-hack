@@ -49,10 +49,10 @@ public class LessonRepository : ILessonRepository
         return result.Entity;
     }
 
-    public async Task<bool> DeleteAsync(Lesson t)
+    public async Task<Lesson> DeleteAsync(Lesson t)
     {
         var result = _db.Lessons.Remove(t);
         await _db.SaveChangesAsync();
-        return result.State == EntityState.Deleted;
+        return t;
     }
 }
