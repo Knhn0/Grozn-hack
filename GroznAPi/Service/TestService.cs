@@ -12,12 +12,10 @@ namespace Service;
 public class TestService : ITestService
 {
     private readonly ITestRepository _testRepository;
-    private readonly IQuestionRepository _questionRepository;
 
-    public TestService(ITestRepository testRepository, IQuestionRepository questionRepository)
+    public TestService(ITestRepository testRepository)
     {
         _testRepository = testRepository;
-        _questionRepository = questionRepository;
     }
 
     public async Task<CreateTestResponseDto> CreateTestAsync(CreateTestRequestDto request)
@@ -180,8 +178,9 @@ public class TestService : ITestService
         var candidate = questions.FirstOrDefault(q => q.Id == questionId);
         
         if (candidate is null) throw new QuestionNotFoundException("Question not found");
+        
         candidate.Resource = resource;
-        await _questionRepository.UpdateAsync(candidate);
+        await _testRepository.UpdateQuestionAsync(candidate);
         
         return new AwsFileDto
         {

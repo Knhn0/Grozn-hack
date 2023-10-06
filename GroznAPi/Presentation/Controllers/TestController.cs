@@ -1,5 +1,6 @@
 ﻿using Contracts.Aws;
 using Contracts.Test;
+using Domain.Entities;
 using Exceptions.Implementation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -48,8 +49,8 @@ public class TestController : BaseController
         return Ok(await _testService.UpdateTestAsync(request));
     }
 
-    [HttpPost("upload-resource")]
-    public async Task<ActionResult> UploadResourceAsync(IFormFile formFile)
+    [HttpPost("upload-resource/{testId}/{questionId}")]
+    public async Task<ActionResult> UploadResourceAsync(IFormFile formFile, [FromRoute] int questionId, [FromRoute] int testId)
     {
         if (formFile.Length == 0) throw new ResourceNotUploadedException("Resource has not been uploaded to server");
 
@@ -64,7 +65,12 @@ public class TestController : BaseController
         });
 
         if (!uploaded.IsUploaded) throw new ResourceNotUploadedException("Resource has not been uploaded to server");
-        
-        _testService.
+
+        return Ok(await _testService.SetQuestionResourceAsync(testId, questionId, new Resource
+        {
+            Name = formFile.FileName,
+            Url = uploaded.File!.Url,
+            Type = uploaded.File!.Type
+        }));
     }
 }

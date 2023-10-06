@@ -11,5 +11,5 @@ public interface ITestService
     Task<List<TestDto>> GetTestsByLessonAsync(int lessonId);
     Task<UpdateTestResponseDto> UpdateTestAsync(UpdateTestRequestDto testDto);
     Task<bool> RemoveTestAsync(int id);
-    Task<Resource> SetQuestionResourceAsync(int questionId, Resource resource);
+    Task<AwsFileDto> SetQuestionResourceAsync(int testId, int questionId, Resource resource);
 }
