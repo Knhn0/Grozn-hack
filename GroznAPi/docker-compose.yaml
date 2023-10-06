@@ -26,7 +26,7 @@ services:
       - backend
     restart: always
     ports:
-      - "80:80"
+      - "81:80"
     deploy:
       replicas: 1
       resources:
