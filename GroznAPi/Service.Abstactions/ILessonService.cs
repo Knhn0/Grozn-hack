@@ -1,5 +1,6 @@
 using Contracts.Analitic;
 using Contracts.Lesson;
+using Domain.Entities;
 
 namespace Service.Abstactions;
 
@@ -17,4 +18,5 @@ public interface ILessonService
     Task<DeleteLessonResponseDto> DeleteLesson(DeleteLessonRequestDto req);
 
     Task<GetLessonThemeResponseDto> GetTheme(GetLessonThemeRequestDto req);
+
 }
