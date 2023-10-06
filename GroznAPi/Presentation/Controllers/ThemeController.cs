@@ -23,7 +23,7 @@ public class ThemeController : BaseController
         _themeService = themeService;
     }
     
-    [HttpGet("get/{themeId}")]
+    [HttpGet("/{themeId}")]
     public async Task<ActionResult<GetThemeResponseDto>> GetUserAsync([Required] GetThemeRequestDto req)
     {
         if (req.themeId == 0)
@@ -34,27 +34,27 @@ public class ThemeController : BaseController
         return Ok(resp);
     }
 
-    [HttpGet("get/lessons")]
+    [HttpGet]
     public async Task<ActionResult<GetLessonsResponseDto>> GetLessons()
     {
         var resp = await _themeService.GetLessons();
         return Ok(resp);
     }
 
-    [HttpPost("create")]
+    [HttpPost]
     public async Task<ActionResult<CreateThemeResponseDto>> CreateTheme([Required] CreateThemeRequestDto req)
     {
         var resp = await _themeService.CreateTheme(req);
         return Ok(resp);
     }
 
-    [HttpDelete("delete")]
+    [HttpDelete]
     public async Task DeleteTheme([Required] DeleteThemeRequestDto req)
     {
         await _themeService.DeleteTheme(req);
     }
 
-    [HttpPost("update")]
+    [HttpPut]
     public async Task<ActionResult<UpdateThemeResponseDto>> UpdateTheme([Required] UpdateThemeRequestDto req)
     {
        return await _themeService.UpdateTheme(req);
