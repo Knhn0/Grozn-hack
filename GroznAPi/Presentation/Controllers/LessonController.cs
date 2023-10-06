@@ -48,7 +48,7 @@ public class LessonController: BaseController
         return Ok(resp);
     }
 
-    [HttpGet("/get")]
+    [HttpGet("/get-all")]
     public async Task<ActionResult<GetLessonsResponseDto>> GetLessons()
     {
         var resp = await _lessonService.GetAllAsync();

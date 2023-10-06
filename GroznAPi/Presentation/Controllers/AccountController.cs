@@ -33,7 +33,7 @@ public class AccountController : BaseController
         return Ok(user);
     }
     
-    [HttpGet("get")]
+    [HttpGet("get-all")]
     public async Task<ActionResult<Account>> GetAllUsersAsync()
     {
         var users = await _accountService.GetAllAsync();
