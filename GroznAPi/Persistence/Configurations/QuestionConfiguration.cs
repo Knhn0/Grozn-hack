@@ -15,8 +15,7 @@ public class QuestionConfiguration : IEntityTypeConfiguration<Question>
 
         builder.HasOne(question => question.Resource)
             .WithOne()
-            .HasForeignKey<Resource>(resource => resource.Id)
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasForeignKey<Resource>(resource => resource.Id);
 
         builder.HasMany(question => question.Answers)
             .WithOne()
