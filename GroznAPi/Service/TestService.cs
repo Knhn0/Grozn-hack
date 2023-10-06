@@ -66,13 +66,18 @@ public class TestService : ITestService
         return response;
     }
 
-    public async Task<List<Test>> GetAllTests()
+    public async Task<List<Test>> GetAllTestsAsync()
     {
         return await _testRepository.GetAllAsync();
     }
 
-    public Task<List<Test>> GetTestsByLesson()
+    public async Task<List<Test>> GetTestsByLessonAsync(int lessonId)
     {
-        throw new NotImplementedException();
+        return await _testRepository.GetAllTestsByLessonIdAsync(lessonId);
+    }
+
+    public async Task<Test> GetTestByIdAsync(int id)
+    {
+        return await _testRepository.GetByIdAsync(id);
     }
 }

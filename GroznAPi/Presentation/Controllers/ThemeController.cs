@@ -59,5 +59,10 @@ public class ThemeController : BaseController
     {
        return await _themeService.UpdateThemeAsync(req);
     }
-    
+
+    [HttpGet("by-course/{courseId}")]
+    public async Task<ActionResult<List<ThemeDto>>> GetByCourseId([FromQuery] int courseId)
+    {
+        return await _themeService.GetThemesByCourseId(courseId);
+    }
 }

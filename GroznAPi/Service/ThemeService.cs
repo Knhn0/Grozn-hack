@@ -75,4 +75,16 @@ public class ThemeService: IThemeService
             Lessons = list
         };
     }
+
+    public async Task<List<ThemeDto>> GetThemesByCourseId(int courseId)
+    {
+        var db = await _themeRepository.GetByCourseId(courseId);
+        var res = db.Select(t => new ThemeDto
+        {
+            Title = t.Title,
+            Description = t.Description,
+            Id = t.Id
+        });
+        return res.ToList();
+    }
 }

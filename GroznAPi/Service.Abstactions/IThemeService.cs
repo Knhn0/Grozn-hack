@@ -10,4 +10,5 @@ public interface IThemeService
     Task<UpdateThemeResponseDto> UpdateThemeAsync(UpdateThemeRequestDto req);
     Task DeleteThemeAsync(DeleteThemeRequestDto req);
     Task<GetLessonsResponseDto> GetLessonsAsync();
+    Task<List<ThemeDto>> GetThemesByCourseId(int courseId);
 }

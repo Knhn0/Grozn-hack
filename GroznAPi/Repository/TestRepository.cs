@@ -76,7 +76,7 @@ public class TestRepository : ITestRepository
 
     public Task<Course> GetCourseAsync(int id)
     {
-        throw new NotImplementedException();
+        return null;
     }
 
     public async Task<List<Question>> GetQuestionsAsync(int id)
