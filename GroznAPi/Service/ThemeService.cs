@@ -21,8 +21,7 @@ public class ThemeService: IThemeService
         {
             Id = req.ThemeId,
             Title = req.Tiile,
-            Description = req.Description,
-            Lessons = req.Lessons
+            Description = req.Description
         };
         await _themeRepository.CreateAsync(theme);
         return new CreateThemeResponseDto
