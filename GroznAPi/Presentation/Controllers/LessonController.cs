@@ -61,4 +61,11 @@ public class LessonController : BaseController
         if (Role == "Student") return BadRequest("Invalid account type");
         return await _lessonService.UpdateLesson(req);
     }
+    
+    [HttpPost("getPercents")]
+    public async Task<ActionResult<GetLessonsPercentResponseDto>> GetLessonsPercentByThemeId([FromBody] GetLessonsPercentRequest req)
+    {
+        return await _lessonService.GetLessonsPercentByThemeId(req.ThemeId, req.StudentId);
+    }
+
 }

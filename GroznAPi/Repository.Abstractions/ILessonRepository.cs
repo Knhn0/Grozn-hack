@@ -10,4 +10,5 @@ public interface ILessonRepository
     Task<Lesson> CreateAsync(Lesson t);
     Task<bool> DeleteAsync(int id);
     Task<List<Lesson>> GetLessonsByThemeIdAsync(int themeId);
+    Task<List<StudentTestPercent>> GetTestPercentsByLessonId(int lessonId, int studentId);
 }

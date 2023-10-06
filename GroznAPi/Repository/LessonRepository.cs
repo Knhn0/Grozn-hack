@@ -65,10 +65,15 @@ public class LessonRepository : ILessonRepository
 
     public async Task<List<Lesson>> GetLessonsByThemeIdAsync(int themeId)
     {
-        var result = await _db.Lessons.Include(x => x.Tests)
-            .Include(x => x.Tests.Select(x4 => x4.Questions))
-            .Include(x => x.Tests.Select(x3 => x3.Questions).Select(x2 => x2.Select(x1 => x1.Answers)))
-            .Where(l => l.ThemeId == themeId).ToListAsync();
+        var result = await _db.Lessons.Where(l => l.ThemeId == themeId).ToListAsync();
         return result ?? throw new LessonNotFoundException("Lessons not found");
+    }
+    
+    public Task<List<StudentTestPercent>> GetTestPercentsByLessonId(int lessonId, int studentId)
+    {
+        var percentTests = _db.StudentTestPercents
+            .FromSqlRaw(@"select ""StudentTestPercents"".* from ""StudentTestPercents"" join ""Tests"" on  ""StudentTestPercents"".""TestId"" = ""Tests"".""Id"" where ""LessonId"" = {0} and ""StudentTestPercents"".""StudentId"" = {1} ", lessonId, studentId)
+            .ToListAsync();
+        return percentTests;
     }
 }

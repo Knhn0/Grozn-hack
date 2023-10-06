@@ -13,4 +13,5 @@ public interface ILessonService
     Task<CreateLessonResponseDto> CreateLesson(CreateLessonRequestDto req);
 
     Task DeleteLesson(int id);
+    Task<GetLessonsPercentResponseDto> GetLessonsPercentByThemeId(int themeId, int studentId);
 }
