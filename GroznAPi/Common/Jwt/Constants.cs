@@ -8,7 +8,7 @@ public static class Constants
     /// <summary>
     /// Minimum length of a person login name.
     /// </summary>
-    public const int LogonNameLengthMinimum = 3;
+    public const int LogonNameLengthMinimum = 1;
 
     /// <summary>
     /// Maximum length of a person login name.
@@ -18,7 +18,7 @@ public static class Constants
     /// <summary>
     /// Minimum length of a person's password.
     /// </summary>
-    public const int PasswordLengthMinimum = 8;
+    public const int PasswordLengthMinimum = 1;
 
     /// <summary>
     /// Maximum length of a person's password.
