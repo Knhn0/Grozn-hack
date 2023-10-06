@@ -22,7 +22,7 @@ public class TestService : ITestService
         var test = await _testRepository.CreateAsync(new Test
         {
             Title = request.Title,
-            Description = request.Description
+            Description = request.Description,
         });
 
         var questions = new List<Question>();

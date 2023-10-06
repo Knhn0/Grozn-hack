@@ -22,19 +22,19 @@ public class LessonRepository : ILessonRepository
 
     public async Task<Lesson> GetByIdAsync(int id)
     {
-        var result = await _db.Lessons.FirstOrDefaultAsync(x => x.Id == id);
+        var result = await _db.Lessons.Include(x => x.Tests).FirstOrDefaultAsync(x => x.Id == id);
         return result ?? throw new LessonNotFoundException("Lesson not found");
     }
 
     public async Task<Lesson> UpdateAsync(Lesson t)
     {
-        var dbLesson = await _db.Lessons.FirstOrDefaultAsync(x => x.Id == t.Id);
+        var dbLesson = await _db.Lessons.Include(x => x.Tests).FirstOrDefaultAsync(x => x.Id == t.Id);
         if (dbLesson == null)
         {
             throw new LessonNotFoundException("Lesson not found");
         }
 
-        dbLesson.Theme = t.Theme;
+        dbLesson.ThemeId = t.ThemeId;
         dbLesson.Title = t.Title;
         dbLesson.ArticleBody = t.ArticleBody;
             
@@ -58,7 +58,7 @@ public class LessonRepository : ILessonRepository
 
     public async Task<List<Lesson>> GetLessonsByThemeIdAsync(int themeId)
     {
-        var result = await _db.Lessons.Where(l => l.Theme.Id == themeId).ToListAsync();
+        var result = await _db.Lessons.Where(l => l.ThemeId == themeId).ToListAsync();
         return result ?? throw new LessonNotFoundException("Lessons not found");
     }
 }

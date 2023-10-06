@@ -15,9 +15,5 @@ public class TestConfiguration : IEntityTypeConfiguration<Test>
 
         builder.Property(test => test.Title).HasMaxLength(60);
         builder.Property(test => test.Description).HasMaxLength(300);
-
-        builder.HasOne(test => test.Lesson)
-            .WithOne()
-            .HasForeignKey<Lesson>(lesson => lesson.Id);
     }
 }

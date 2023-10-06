@@ -5,5 +5,5 @@ public class CreateLessonRequestDto
     public int LessonId { get; set; }
     public string Title { get; set; }
     public string ArticleBody { get; set; }
-    public Domain.Entities.Theme theme { get; set; }
+    public int ThemeId { get; set; }
 }

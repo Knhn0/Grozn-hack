@@ -36,7 +36,7 @@ public class TestRepository : ITestRepository
 
         dbTest.Title = t.Title;
         dbTest.Description = t.Description;
-        dbTest.Lesson = t.Lesson;
+        dbTest.LessonId = t.LessonId;
             
         await _db.SaveChangesAsync();
         return dbTest;
@@ -58,7 +58,7 @@ public class TestRepository : ITestRepository
 
     public async Task<List<Test>> GetAllTestsByLessonIdAsync(int lessonId)
     {
-        var result =  await _db.Tests.Where(t => t.Lesson.Id == lessonId).ToListAsync();
+        var result =  await _db.Tests.Where(t => t.LessonId == lessonId).ToListAsync();
         return result ?? throw new TestNotFoundException("Tests not found");
     }
 

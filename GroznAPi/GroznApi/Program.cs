@@ -145,9 +145,16 @@ builder.Services.AddDbContext<Context>();
 //build
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-using (var context = scope.ServiceProvider.GetService<Context>())
-    context.Database.Migrate();
+try
+{
+    using (var scope = app.Services.CreateScope())
+    using (var context = scope.ServiceProvider.GetService<Context>())
+        context.Database.Migrate();
+}
+catch
+{
+    Console.WriteLine("Пошел нахуй");
+}
 
 //swagger
 app.UseSwagger();

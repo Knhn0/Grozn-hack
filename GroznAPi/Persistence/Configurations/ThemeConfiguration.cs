@@ -15,6 +15,6 @@ public class ThemeConfiguration : IEntityTypeConfiguration<Theme>
         
         builder.Property(theme => theme.Title).HasMaxLength(60);
         builder.Property(theme => theme.Description).HasMaxLength(300);
-        builder.HasMany<Lesson>(theme => theme.Lessons);
+        builder.HasMany(theme => theme.Lessons);
     }
 }

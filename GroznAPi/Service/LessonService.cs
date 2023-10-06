@@ -12,12 +12,14 @@ public class LessonService : ILessonService
     private readonly ILessonRepository _lessonRepository;
     private readonly ITestRepository _testRepository;
     private readonly ITestPercentRepository _testPercentRepository;
-
-    public LessonService(ILessonRepository lessonRepository, ITestRepository testRepository, ITestPercentRepository testPercentRepository)
+    private readonly IThemeRepository _themeRepository;
+    
+    public LessonService(ILessonRepository lessonRepository, ITestRepository testRepository, ITestPercentRepository testPercentRepository, IThemeRepository themeRepository)
     {
         _lessonRepository = lessonRepository;
         _testRepository = testRepository;
         _testPercentRepository = testPercentRepository;
+        _themeRepository = themeRepository;
     }
 
     public async Task<ThemeResponseDto> GetAllTestsByThemeId(int themeId, int studentId)
@@ -66,8 +68,7 @@ public class LessonService : ILessonService
         return new GetLessonResponseDto
         {
             Title = res.Title,
-            ArticleBody = res.ArticleBody,
-            theme = res.Theme
+            ArticleBody = res.ArticleBody
         };
     }
 
@@ -77,15 +78,14 @@ public class LessonService : ILessonService
         var res = await _lessonRepository.GetByIdAsync(req.LessonId);
         if (!String.IsNullOrEmpty(res.Title)) res.Title = req.Title;
         if (!String.IsNullOrEmpty(res.ArticleBody)) res.ArticleBody = req.ArticleBody;
-        if (req.theme != null) res.Theme = req.theme;
+        if (req.ThemeId != null) res.ThemeId = req.ThemeId;
         await _lessonRepository.UpdateAsync(res);
         return new UpdateLessonResponseDto
         {
-            theme = res.Theme,
+            ThemeId = res.ThemeId,
             Title = res.Title,
             ArticleBody = res.ArticleBody
         };
-
     }
 
     public async Task<CreateLessonResponseDto> CreateLesson(CreateLessonRequestDto req)
@@ -95,14 +95,13 @@ public class LessonService : ILessonService
             Id = req.LessonId,
             Title = req.Title,
             ArticleBody = req.ArticleBody,
-            Theme = req.theme
+            ThemeId = req.ThemeId
         };
 
         await _lessonRepository.CreateAsync(lesson);
         return new CreateLessonResponseDto
         {
             LessonId = lesson.Id,
-            theme = lesson.Theme,
             Title = lesson.Title,
             ArticleBody = lesson.ArticleBody
         };
@@ -114,7 +113,6 @@ public class LessonService : ILessonService
         var lesson = new Lesson
         {
             Id = req.LessonId,
-            Theme = req.theme,
             ArticleBody = req.ArticleBody,
             Title = req.Title
         };
@@ -122,7 +120,6 @@ public class LessonService : ILessonService
         await _lessonRepository.DeleteAsync(lesson);
         return new DeleteLessonResponseDto
         {
-            theme = lesson.Theme,
             Title = lesson.Title,
             ArticleBody = lesson.ArticleBody,
             LessonId = lesson.Id
@@ -136,7 +133,7 @@ public class LessonService : ILessonService
         if (res == null) throw new Exception("Lesson not found");
         return new GetLessonThemeResponseDto
         {
-            Theme = res.Theme
+            Theme = await _themeRepository.GetByIdAsync(req.)
         };
     }
 }

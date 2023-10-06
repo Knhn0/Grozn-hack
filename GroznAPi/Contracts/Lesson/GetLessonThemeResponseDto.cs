@@ -2,5 +2,5 @@
 
 public class GetLessonThemeResponseDto
 {
-    public Domain.Entities.Theme Theme { get; set; }
+    public Theme Theme { get; set; }
 }
