@@ -25,7 +25,7 @@ public class AwsController : BaseController
 
         try
         {
-            await _storage.Put(formFile.Name, memoryStream);
+            await _storage.Put(formFile.FileName, memoryStream);
             return Ok(new AwsFileUploadedResponse
             {
                 IsUploaded = true,
