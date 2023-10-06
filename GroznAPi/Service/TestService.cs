@@ -16,68 +16,93 @@ public class TestService : ITestService
         _testRepository = testRepository;
         _lessonRepository = lessonRepository;
     }
-    
-    public async Task<TestCreatedResponse> CreateTestAsync(CreateTestRequestDto request)
+
+    public async Task<CreateTestResponseDto> CreateTestAsync(CreateTestRequestDto request)
     {
         var test = await _testRepository.CreateAsync(new Test
         {
             Title = request.Title,
             Description = request.Description,
-        });
-
-        var questions = new List<Question>();
-        foreach (var q in request.Questions)
-        {
-            var question = new Question
+            Questions = request.Questions.Select(q => new Question
             {
                 Title = q.Title,
-                Test = test,
-                Answers = new Collection<Answer>()
-            };
-
-            foreach (var a in q.Answers)
-            {
-                var answer = new Answer
+                Answers = q.Answers.Select(a => new Answer
                 {
-                    Text = a.Title,
-                    IsRight = a.IsRight,
-                    Question = question,
-                    QuestionId = question.Id
-                };
-                question.Answers.Add(answer);
-            }
-            questions.Add(question);
-        }
-        
-        var dbQuestions = await _testRepository.CreateQuestionsAsync(test.Id, questions.ToArray());
-
-        var response = request as TestCreatedResponse;
-        response.Id = test.Id;
-
-        var lessonDb = await _lessonRepository.GetByIdAsync(request.LessonId);
-
-        await _testRepository.UpdateAsync(new Test
-        {
-            Lesson = lessonDb,
-            Title = test.Title,
-            Description = test.Description
+                    Title = a.Title,
+                    IsRight = a.IsRight
+                }).ToList()
+            }).ToList()
         });
 
-        return response;
+        return new CreateTestResponseDto
+        {
+            Test = new TestDto
+            {
+                Id = test.Id,
+                Title = test.Title,
+                Description = test.Description,
+                Questions = test.Questions.Select(q => new QuestionDto
+                {
+                    Id = q.Id,
+                    Title = q.Title,
+                    Answers = q.Answers.Select(a => new AnswerDto
+                    {
+                        Id = a.Id,
+                        Title = a.Title,
+                        IsRight = a.IsRight
+                    }).ToList()
+                }).ToList(),
+                LessonId = test.LessonId
+            }
+        };
     }
 
-    public async Task<List<Test>> GetAllTestsAsync()
+    public async Task<List<TestDto>> GetAllTestsAsync()
     {
-        return await _testRepository.GetAllAsync();
+        var tests = await _testRepository.GetAllAsync();
+
+        return new List<TestDto>(tests.Select(t => new TestDto
+        {
+            Id = t.Id,
+            Title = t.Title,
+            Description = t.Description,
+            Questions = t.Questions.Select(q => new QuestionDto
+            {
+                Id = q.Id,
+                Title = q.Title,
+                Answers = q.Answers.Select(a => new AnswerDto
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    IsRight = a.IsRight
+                }).ToList()
+            }).ToList(),
+            LessonId = t.LessonId
+        }));
     }
 
-    public async Task<List<Test>> GetTestsByLessonAsync(int lessonId)
+    public async Task<List<TestDto>> GetTestsByLessonAsync(int lessonId)
     {
-        return await _testRepository.GetAllTestsByLessonIdAsync(lessonId);
+        var tests = await _testRepository.GetAllTestsByLessonIdAsync(lessonId);
+        
+        return new List<TestDto>(tests.Select(t => new TestDto
+        {
+            Id = t.Id,
+            Title = t.Title,
+            Description = t.Description,
+            Questions = t.Questions.Select(q => new QuestionDto
+            {
+                Id = q.Id,
+                Title = q.Title,
+                Answers = q.Answers.Select(a => new AnswerDto
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    IsRight = a.IsRight
+                }).ToList()
+            }).ToList(),
+            LessonId = t.LessonId
+        }));
     }
-
-    public async Task<Test> GetTestByIdAsync(int id)
-    {
-        return await _testRepository.GetByIdAsync(id);
-    }
+    
 }

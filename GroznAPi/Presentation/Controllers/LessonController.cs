@@ -1,22 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Contracts.Lesson;
-using Contracts.Theme;
-using Domain.Entities;
+﻿using Contracts.Lesson;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Repository.Abstractions;
 using Service.Abstactions;
 
 namespace Presentation.Controllers;
 
-
 [Route("[controller]")]
 [ApiController]
-public class LessonController: BaseController
+public class LessonController : BaseController
 {
     private readonly ILogger<LessonController> _logger;
     private readonly ILessonService _lessonService;
-    
+
 
     public LessonController(ILogger<LessonController> logger, ILessonService lessonService)
     {
@@ -24,50 +19,46 @@ public class LessonController: BaseController
         _lessonService = lessonService;
     }
 
-
-    [HttpGet("/get/{lessonId}")]
-    public async Task<ActionResult<GetLessonsResponseDto>> GetLessonAsync([Required] GetLessonRequestDto req)
+    [HttpPost]
+    public async Task<ActionResult> CreateLesson([FromBody] CreateLessonRequestDto req)
     {
-        if (req.LessonId == 0)
+        if (Role == "Student") return BadRequest("Invalid account type");
+        var lesson =  await _lessonService.CreateLesson(req);
+        return Ok(lesson);
+    }
+
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult> GetLessonAsync(int id)
+    {
+        if (id == 0)
         {
             return BadRequest("Invalid id");
         }
 
-        var resp = await _lessonService.GetLesson(req);
+        var resp = await _lessonService.GetLesson(id);
         return Ok(resp);
     }
 
-    [HttpGet("/getTheme/{lessonId}")]
-    public async Task<ActionResult<GetLessonThemeResponseDto>> GetLessonTheme(GetLessonThemeRequestDto req)
-    {
-        if (req.LessonId == 0)
-        {
-            return BadRequest("Invalid id");
-        }
-        var resp = await _lessonService.GetTheme(req);
-        return Ok(resp);
-    }
-
-    [HttpGet("/get-all")]
+    [HttpGet("/all")]
     public async Task<ActionResult<GetLessonsResponseDto>> GetLessons()
     {
         var resp = await _lessonService.GetAllAsync();
         return Ok(resp);
     }
 
-    [HttpDelete("/delete")]
-    public async Task<ActionResult<DeleteLessonResponseDto>> DeleteLesson(DeleteLessonRequestDto req)
+    [HttpDelete("/{id}")]
+    public async Task<ActionResult> DeleteLesson(int id)
     {
         if (Role == "Student") return BadRequest("Invalid account type");
-        await _lessonService.DeleteLesson(req);
-        return Ok(req);
+        await _lessonService.DeleteLesson(id);
+        return Ok();
     }
 
-    [HttpPut("/update")]
-    public async Task<ActionResult<UpdateLessonResponseDto>> UpdateLesson(UpdateLessonRequestDto req)
+    [HttpPut]
+    public async Task<ActionResult<UpdateLessonResponseDto>> UpdateLesson([FromBody] UpdateLessonRequestDto req)
     {
         if (Role == "Student") return BadRequest("Invalid account type");
         return await _lessonService.UpdateLesson(req);
     }
-    
 }

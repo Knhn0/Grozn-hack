@@ -236,8 +236,8 @@ namespace Presistence.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "text", nullable: false),
-                    TestId = table.Column<int>(type: "integer", nullable: false),
-                    ResourceId = table.Column<int>(type: "integer", nullable: false)
+                    ResourceId = table.Column<int>(type: "integer", nullable: false),
+                    TestId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -289,7 +289,7 @@ namespace Presistence.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Text = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
                     IsRight = table.Column<bool>(type: "boolean", nullable: false),
                     QuestionId = table.Column<int>(type: "integer", nullable: false)
                 },

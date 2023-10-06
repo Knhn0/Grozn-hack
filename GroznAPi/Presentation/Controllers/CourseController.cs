@@ -1,10 +1,7 @@
 ﻿using Contracts.Course;
 using Domain.Entities;
-using Jwt;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Service.Abstactions;
 
 namespace Presentation.Controllers;
@@ -44,35 +41,47 @@ public class CourseController : BaseController
     }
 
     [HttpPost]
-    public async Task<ActionResult<CourseCreatedResponseDto>> CreateCourse(CreateCourseRequestDto request)
+    public async Task<ActionResult<CreateCourseResponseDto>> CreateCourse(CreateCourseRequestDto request)
     {
         var userInfo = await _accountService.GetByIdAsync(AccountId);
         return Ok(await _courseService.CreateCourseAsync(request, userInfo!.Id));
     }
 
-    [HttpDelete]
-    public async Task<ActionResult<CourseRemovedResponseDto>> DeleteCourse(RemoveCourseRequestDto request)
+    [HttpDelete("/{id}")]
+    public async Task<ActionResult> DeleteCourse(int id)
     {
-        if (Role == "Admin") return await _courseService.RemoveCourseForcedAsync(request);
-        if (Role == "Teacher")
+        switch (Role)
         {
-            var userInfo = await _accountService.GetByIdAsync(AccountId);
-            return await _courseService.RemoveCourseAsync(request, userInfo.Id);
+            case "Admin":
+                await _courseService.RemoveCourseForcedAsync(id);
+                return Ok();
+            case "Teacher":
+            {
+                var userInfo = await _accountService.GetByIdAsync(AccountId);
+                await _courseService.RemoveCourseAsync(id, userInfo.Id);
+                return Ok();
+            }
+            default:
+                return BadRequest("Invalid");
         }
-
-        return BadRequest("Invalid");
     }
 
     [HttpPut]
-    public async Task<ActionResult<CourseUpdatedResponseDto>> UpdateCourse(UpdateCourseRequestDto request)
+    public async Task<ActionResult> UpdateCourse(UpdateCourseRequestDto request)
     {
-        if (Role == "Admin") return await _courseService.UpdateCourseForcedAsync(request);
-        if (Role == "Teacher")
+        switch (Role)
         {
-            var userInfo = await _accountService.GetByIdAsync(AccountId);
-            return await _courseService.UpdateCourseAsync(request, userInfo.Id);
+            case "Admin":
+                var resp = await _courseService.UpdateCourseForcedAsync(request);
+                return Ok(resp);
+            case "Teacher":
+            {
+                var userInfo = await _accountService.GetByIdAsync(AccountId);
+                var respUser = await _courseService.UpdateCourseAsync(request, userInfo.Id);
+                return Ok(respUser);
+            }
+            default:
+                return BadRequest("Invalid");
         }
-
-        return BadRequest("Invalid");
     }
 }

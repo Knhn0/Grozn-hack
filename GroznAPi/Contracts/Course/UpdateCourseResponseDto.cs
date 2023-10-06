@@ -1,6 +1,6 @@
 namespace Contracts.Course;
 
-public class UpdateCourseRequestDto
+public class UpdateCourseResponseDto
 {
     public CourseDto Course { get; set; }
 }

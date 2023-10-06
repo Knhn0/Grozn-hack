@@ -1,11 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Contracts.Theme;
-using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
-using Repository.Abstractions;
-using Service;
 using Service.Abstactions;
 
 namespace Presentation.Controllers;
@@ -14,30 +10,24 @@ namespace Presentation.Controllers;
 [ApiController]
 public class ThemeController : BaseController
 {
-    private readonly ILogger<TestController> _logger;
+    private readonly ILogger<ThemeController> _logger;
     private readonly IThemeService _themeService;
 
-    public ThemeController(ILogger<TestController> logger, IThemeService themeService)
+    public ThemeController(ILogger<ThemeController> logger, IThemeService themeService)
     {
         _logger = logger;
         _themeService = themeService;
     }
-    
+
     [HttpGet("/{themeId}")]
-    public async Task<ActionResult<GetThemeResponseDto>> GetUserAsync([Required] GetThemeRequestDto req)
+    public async Task<ActionResult> GetUserAsync(int themeId)
     {
-        if (req.ThemeId == 0)
+        if (themeId == 0)
         {
             return BadRequest("Invalid id");
         }
-        var resp = await _themeService.GetThemeAsync(req.ThemeId);
-        return Ok(resp);
-    }
 
-    [HttpGet]
-    public async Task<ActionResult<GetLessonsResponseDto>> GetLessons()
-    {
-        var resp = await _themeService.GetLessonsAsync();
+        var resp = await _themeService.GetThemeAsync(themeId);
         return Ok(resp);
     }
 
@@ -48,16 +38,16 @@ public class ThemeController : BaseController
         return Ok(resp);
     }
 
-    [HttpDelete]
-    public async Task DeleteTheme([Required] DeleteThemeRequestDto req)
+    [HttpDelete("/{id}")]
+    public async Task DeleteTheme(int id)
     {
-        await _themeService.DeleteThemeAsync(req);
+        await _themeService.DeleteThemeAsync(id);
     }
 
     [HttpPut]
     public async Task<ActionResult<UpdateThemeResponseDto>> UpdateTheme([Required] UpdateThemeRequestDto req)
     {
-       return await _themeService.UpdateThemeAsync(req);
+        return await _themeService.UpdateThemeAsync(req);
     }
 
     [HttpGet("by-course/{courseId}")]

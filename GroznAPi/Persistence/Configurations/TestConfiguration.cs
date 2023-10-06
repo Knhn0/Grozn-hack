@@ -9,11 +9,16 @@ public class TestConfiguration : IEntityTypeConfiguration<Test>
     public void Configure(EntityTypeBuilder<Test> builder)
     {
         builder.ToTable(nameof(Test));
-        
+
         builder.HasKey(test => test.Id);
         builder.Property(test => test.Id).ValueGeneratedOnAdd();
 
         builder.Property(test => test.Title).HasMaxLength(60);
         builder.Property(test => test.Description).HasMaxLength(300);
+
+        builder.HasMany(question => question.Questions)
+            .WithOne()
+            .HasForeignKey(question => question.TestId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

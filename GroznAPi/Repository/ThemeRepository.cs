@@ -27,13 +27,15 @@ public class ThemeRepository : IThemeRepository
 
     public async Task<Theme?> GetByIdAsync(int id)
     {
-        var res = await _db.Themes.FirstOrDefaultAsync(x =>x.Id == id);
+        var res = await _db.Themes
+            .Include(x => x.Lessons.Select(x => x.Tests.Select(x => x.Questions.Select(x => x.Answers))))
+            .FirstOrDefaultAsync(x => x.Id == id);
         return res;
     }
 
     public async Task<Theme> UpdateAsync(Theme t)
     {
-        var theme = await _db.Themes.FirstOrDefaultAsync(x => x.Id == t.Id);
+        var theme = await _db.Themes.Include(x => x.Lessons.Select(x => x.Tests.Select(x => x.Questions.Select(x => x.Answers)))).FirstOrDefaultAsync(x => x.Id == t.Id);
         if (theme == null) throw new Exception("Theme not found");
         theme.Title = t.Title;
         theme.Description = t.Description;
@@ -47,9 +49,10 @@ public class ThemeRepository : IThemeRepository
         await _db.SaveChangesAsync();
         return res.Entity;
     }
-    public async Task<bool> DeleteAsync(Theme t)
+
+    public async Task<bool> DeleteAsync(int id )
     {
-        var res = _db.Themes.Remove(t);
+        var res = _db.Themes.Remove(new Theme(){Id = id});
         await _db.SaveChangesAsync();
         return res.State == EntityState.Deleted;
     }

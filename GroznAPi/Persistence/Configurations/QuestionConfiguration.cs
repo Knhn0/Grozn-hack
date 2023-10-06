@@ -18,13 +18,9 @@ public class QuestionConfiguration : IEntityTypeConfiguration<Question>
             .HasForeignKey<Resource>(resource => resource.Id)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasOne(question => question.Test)
+        builder.HasMany(question => question.Answers)
             .WithOne()
-            .HasForeignKey<Test>(test => test.Id)
+            .HasForeignKey(answer => answer.QuestionId)
             .OnDelete(DeleteBehavior.Cascade);
-
-        builder.OwnsMany(question => question.Answers)
-            .WithOwner()
-            .HasForeignKey(answer => answer.QuestionId);
     }
 }

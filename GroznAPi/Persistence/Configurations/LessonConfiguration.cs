@@ -17,10 +17,8 @@ public class LessonConfiguration : IEntityTypeConfiguration<Lesson>
 
         builder.HasMany(t => t.Tests)
             .WithOne()
-            .HasForeignKey(test => test.LessonId);
+            .HasForeignKey(test => test.LessonId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-        //builder.HasOne(lesson => lesson.Theme)
-        //    .WithOne()
-        //    .HasForeignKey<Theme>(theme => theme.Id);
     }
 }

@@ -1,9 +1,10 @@
-﻿using Contracts.Theme;
+using Contracts.Theme;
 
 namespace Contracts.Course;
 
-public class CreateCourseRequestDto
+public class CourseDto
 {
+    public int Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
     //  public TeacherDto Teacher { get; set; }

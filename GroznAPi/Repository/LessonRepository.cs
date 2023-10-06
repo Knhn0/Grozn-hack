@@ -22,13 +22,20 @@ public class LessonRepository : ILessonRepository
 
     public async Task<Lesson> GetByIdAsync(int id)
     {
-        var result = await _db.Lessons.Include(x => x.Tests).FirstOrDefaultAsync(x => x.Id == id);
+        var result = await _db.Lessons
+            .Include(x => x.Tests)
+            .Include(x => x.Tests.Select(x4 => x4.Questions))
+            .Include(x => x.Tests.Select(x3 => x3.Questions).Select(x2 => x2.Select(x1 => x1.Answers)))
+            .FirstOrDefaultAsync(x => x.Id == id);
         return result ?? throw new LessonNotFoundException("Lesson not found");
     }
 
     public async Task<Lesson> UpdateAsync(Lesson t)
     {
-        var dbLesson = await _db.Lessons.Include(x => x.Tests).FirstOrDefaultAsync(x => x.Id == t.Id);
+        var dbLesson = await _db.Lessons.Include(x => x.Tests)
+            .Include(x => x.Tests.Select(x4 => x4.Questions))
+            .Include(x => x.Tests.Select(x3 => x3.Questions).Select(x2 => x2.Select(x1 => x1.Answers)))
+            .FirstOrDefaultAsync(x => x.Id == t.Id);
         if (dbLesson == null)
         {
             throw new LessonNotFoundException("Lesson not found");
@@ -37,7 +44,7 @@ public class LessonRepository : ILessonRepository
         dbLesson.ThemeId = t.ThemeId;
         dbLesson.Title = t.Title;
         dbLesson.ArticleBody = t.ArticleBody;
-            
+
         await _db.SaveChangesAsync();
         return dbLesson;
     }
@@ -49,16 +56,19 @@ public class LessonRepository : ILessonRepository
         return result.Entity;
     }
 
-    public async Task<bool> DeleteAsync(Lesson t)
+    public async Task<bool> DeleteAsync(int id)
     {
-        var result = _db.Lessons.Remove(t);
+        var result = _db.Lessons.Remove(new Lesson { Id = id });
         await _db.SaveChangesAsync();
         return result.State == EntityState.Deleted;
     }
 
     public async Task<List<Lesson>> GetLessonsByThemeIdAsync(int themeId)
     {
-        var result = await _db.Lessons.Where(l => l.ThemeId == themeId).ToListAsync();
+        var result = await _db.Lessons.Include(x => x.Tests)
+            .Include(x => x.Tests.Select(x4 => x4.Questions))
+            .Include(x => x.Tests.Select(x3 => x3.Questions).Select(x2 => x2.Select(x1 => x1.Answers)))
+            .Where(l => l.ThemeId == themeId).ToListAsync();
         return result ?? throw new LessonNotFoundException("Lessons not found");
     }
 }
