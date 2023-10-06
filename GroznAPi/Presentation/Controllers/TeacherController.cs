@@ -6,6 +6,8 @@ using Service.Abstactions;
 
 namespace Presentation.Controllers;
 
+[Route("[controller]")]
+[ApiController]
 public class TeacherController : BaseController
 {
     private readonly ILogger<LessonController> _logger;
@@ -17,8 +19,8 @@ public class TeacherController : BaseController
         _teacherService = teacherService;
     }
 
-    [HttpGet("/{teacherId}")]
-    public async Task<ActionResult<GetTeacherDto>> GetTeacher([Required] int id)
+    [HttpGet("{teacherId}")]
+    public async Task<ActionResult> GetTeacher([Required] int id)
     {
         if (id == 0)
         {
@@ -29,36 +31,36 @@ public class TeacherController : BaseController
         return Ok(resp);
     }
 
-    [HttpGet("/get")]
-    public async Task<ActionResult<GetTeacherDto>> GetAllTeachers()
+    [HttpGet("get")]
+    public async Task<ActionResult> GetAllTeachers()
     {
         var resp = await _teacherService.GetTeachers();
         return Ok(resp);
     }
 
-    [HttpPut("/update")]
-    public async Task<ActionResult<UpdateTeacherResponseDto>> UpdateTeacher(UpdateTeacherRequestDto req)
+    [HttpPut("update")]
+    public async Task<ActionResult> UpdateTeacher(UpdateTeacherRequestDto req)
     {
         var resp = await _teacherService.UpdateTeacher(req);
         return Ok(resp);
     }
 
-    [HttpPost("/create")]
-    public async Task<ActionResult<CreateTeacherResponseDto>> CreateTeacher(CreateTeacherRequestDto req)
+    [HttpPost("create")]
+    public async Task<ActionResult> CreateTeacher(CreateTeacherRequestDto req)
     {
         var resp = await _teacherService.CreateTeacher(req);
         return Ok(resp);
     }
 
-    [HttpDelete("/delete")]
+    [HttpDelete("delete")]
     public async Task<ActionResult<bool>> DeleteTeacher(DeleteTeacherRequestDto req)
     {
         var resp = await _teacherService.DeleteTeacher(req);
         return Ok(resp);
     }
 
-    [HttpGet("/get/{teacherId}")]
-    public async Task<ActionResult<GetTeacherInfoDto>> GetTeacherUserInfo([Required] int id)
+    [HttpGet("get/{teacherId}")]
+    public async Task<ActionResult> GetTeacherUserInfo([Required] int id)
     {
         if (id == 0)
         {
@@ -69,8 +71,8 @@ public class TeacherController : BaseController
         return Ok(resp);
     }
 
-    [HttpGet("/get/createdCourses/{teacherId}")]
-    public async Task<ActionResult<GetCreatedCourseDto>> GetCreatedCources([Required] int id)
+    [HttpGet("get/createdCourses/{teacherId}")]
+    public async Task<ActionResult> GetCreatedCources([Required] int id)
     {
         if (id == 0)
         {
@@ -81,7 +83,7 @@ public class TeacherController : BaseController
         return Ok(resp);
     }
 
-    [HttpGet("/isTeacher")]
+    [HttpGet("isTeacher")]
     public async Task<ActionResult<bool>> IsTeacher(int id)
     {
         if (id == 0)
