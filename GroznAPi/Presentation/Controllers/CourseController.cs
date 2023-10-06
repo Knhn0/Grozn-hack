@@ -39,7 +39,7 @@ public class CourseController : BaseController
     [HttpGet]
     public async Task<ActionResult<List<Course>>> GetMyCourses()
     {
-        if (Role == "admin") return Ok(await GetAllCourses());
+        if (Role == "Admin") return Ok(await GetAllCourses());
         return Ok(await _courseService.GetJoinedCourses(AccountId));
     }
 

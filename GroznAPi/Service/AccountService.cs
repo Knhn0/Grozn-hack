@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using Contracts.Account;
 using Domain.Entities;
+using Helpers;
 using Repository.Abstractions;
 using Service.Abstactions;
 
@@ -9,11 +10,12 @@ namespace Service;
 public class AccountService : IAccountService
 {
     private readonly IAccountRepository _accountRepository;
+    private readonly PasswordHasher _passwordHasher;
 
-    public AccountService(IAccountRepository accountRepository)
-
+    public AccountService(IAccountRepository accountRepository, PasswordHasher passwordHasher)
     {
         _accountRepository = accountRepository;
+        _passwordHasher = passwordHasher;
     }
 
     public async Task<Account> UpdateAsync(Account t)
