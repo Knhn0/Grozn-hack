@@ -1,4 +1,6 @@
+using Contracts.Aws;
 using Contracts.Test;
+using Domain.Entities;
 
 namespace Service.Abstactions;
 
@@ -9,4 +11,5 @@ public interface ITestService
     Task<List<TestDto>> GetTestsByLessonAsync(int lessonId);
     Task<UpdateTestResponseDto> UpdateTestAsync(UpdateTestRequestDto testDto);
     Task<bool> RemoveTestAsync(int id);
+    Task<Resource> SetQuestionResourceAsync(int questionId, Resource resource);
 }

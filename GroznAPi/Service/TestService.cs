@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Contracts.Aws;
 using Contracts.Course;
 using Contracts.Test;
 using Domain.Entities;
@@ -11,12 +12,12 @@ namespace Service;
 public class TestService : ITestService
 {
     private readonly ITestRepository _testRepository;
-    private readonly ILessonRepository _lessonRepository;
+    private readonly IQuestionRepository _questionRepository;
 
-    public TestService(ITestRepository testRepository, ILessonRepository lessonRepository)
+    public TestService(ITestRepository testRepository, IQuestionRepository questionRepository)
     {
         _testRepository = testRepository;
-        _lessonRepository = lessonRepository;
+        _questionRepository = questionRepository;
     }
 
     public async Task<CreateTestResponseDto> CreateTestAsync(CreateTestRequestDto request)
@@ -171,5 +172,21 @@ public class TestService : ITestService
     {
         var res = await _testRepository.DeleteAsync(new Test { Id = id });
         return res;
+    }
+
+    public async Task<AwsFileDto> SetQuestionResourceAsync(int testId, int questionId, Resource resource)
+    {
+        var questions = await _testRepository.GetQuestionsAsync(testId);
+        var candidate = questions.FirstOrDefault(q => q.Id == questionId);
+        
+        if (candidate is null) throw new QuestionNotFoundException("Question not found");
+        candidate.Resource = resource;
+        await _questionRepository.UpdateAsync(candidate);
+        
+        return new AwsFileDto
+        {
+            Type = candidate.Resource.Type,
+            Url = candidate.Resource.Url
+        };
     }
 }

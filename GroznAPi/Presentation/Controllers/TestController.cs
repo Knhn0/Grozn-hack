@@ -1,6 +1,10 @@
-﻿using Contracts.Test;
+﻿using Contracts.Aws;
+using Contracts.Test;
+using Exceptions.Implementation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Service;
 using Service.Abstactions;
 
 namespace Presentation.Controllers;
@@ -11,11 +15,13 @@ public class TestController : BaseController
 {
     private readonly ILogger<TestController> _logger;
     private readonly ITestService _testService;
+    private readonly AwsService _awsService;
 
-    public TestController(ILogger<TestController> logger, ITestService testService)
+    public TestController(ILogger<TestController> logger, ITestService testService, AwsService awsService)
     {
         _logger = logger;
         _testService = testService;
+        _awsService = awsService;
     }
 
     [HttpGet("all")]
@@ -40,5 +46,25 @@ public class TestController : BaseController
     public async Task<ActionResult> UpdateTest(UpdateTestRequestDto request)
     {
         return Ok(await _testService.UpdateTestAsync(request));
+    }
+
+    [HttpPost("upload-resource")]
+    public async Task<ActionResult> UploadResourceAsync(IFormFile formFile)
+    {
+        if (formFile.Length == 0) throw new ResourceNotUploadedException("Resource has not been uploaded to server");
+
+        using var memoryStream = new MemoryStream();
+        await formFile.CopyToAsync(memoryStream);
+
+        var uploaded = await _awsService.UploadFile(new AwsFileUploadDto
+        {
+            FileName = formFile.FileName,
+            Stream = memoryStream,
+            Type = formFile.ContentType
+        });
+
+        if (!uploaded.IsUploaded) throw new ResourceNotUploadedException("Resource has not been uploaded to server");
+        
+        _testService.
     }
 }
