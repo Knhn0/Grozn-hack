@@ -74,9 +74,17 @@ public class TestRepository : ITestRepository
         return await GetQuestionsAsync(id);
     }
 
-    public Task<Course> GetCourseAsync(int id)
+    public async Task<Course> GetCourseAsync(int testId)
     {
-        return null;
+        var list = await _db.Courses.FromSqlRaw(@"SELECT ""Id"" FROM ""Courses"" c
+    JOIN ""Themes"" t ON c.""Id"" = t.""CourseId""
+    JOIN ""Lessons"" l on t.""Id"" = l.""ThemeId""
+    JOIN ""Tests"" tt on tt.""LessonId"" = l.""Id""
+    WHERE tt.""Id"" = {0};", testId).ToListAsync();
+        
+        var id = list.FirstOrDefault().Id;
+        
+        return await _db.Courses.FirstOrDefaultAsync(id);
     }
 
     public async Task<List<Question>> GetQuestionsAsync(int id)
