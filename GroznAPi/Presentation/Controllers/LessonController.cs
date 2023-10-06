@@ -40,14 +40,14 @@ public class LessonController : BaseController
         return Ok(resp);
     }
 
-    [HttpGet("/all")]
+    [HttpGet("all")]
     public async Task<ActionResult<GetLessonsResponseDto>> GetLessons()
     {
         var resp = await _lessonService.GetAllAsync();
         return Ok(resp);
     }
 
-    [HttpDelete("/{id}")]
+    [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteLesson(int id)
     {
         if (Role == "Student") return BadRequest("Invalid account type");

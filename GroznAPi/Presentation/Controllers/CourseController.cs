@@ -47,7 +47,7 @@ public class CourseController : BaseController
         return Ok(await _courseService.CreateCourseAsync(request, userInfo!.Id));
     }
 
-    [HttpDelete("/{id}")]
+    [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteCourse(int id)
     {
         switch (Role)
