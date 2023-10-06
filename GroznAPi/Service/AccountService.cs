@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using Contracts.Account;
 using Domain.Entities;
+using Exceptions.Implementation;
 using Helpers;
 using Repository.Abstractions;
 using Service.Abstactions;
@@ -33,6 +34,7 @@ public class AccountService : IAccountService
     public async Task<AccountDto> GetByIdAsync(int id)
     {
         var candidate = await _accountRepository.GetByIdAsync(id);
+        if (candidate is null) throw new AccountNotFoundException("Account not found");
         var response = new AccountDto
         {
             Id = candidate.Id,

@@ -18,22 +18,24 @@ public class AccountRepository : IAccountRepository
 
     public async Task<List<Account>> GetAllAsync()
     {
-        return await _db.Accounts.ToListAsync();
+        return await _db.Accounts
+            .Include(x => x.UserInfo)
+            .Include(x => x.UserInfo.Role).ToListAsync();
     }
 
     public async Task<Account?> GetByIdAsync(int id)
     {
-        var result = await _db.Accounts.FirstOrDefaultAsync(x => x.Id == id);
+        var result = await _db.Accounts
+            .Include(x => x.UserInfo)
+            .Include(x => x.UserInfo.Role)
+            .FirstOrDefaultAsync(x => x.Id == id);
         return result ?? throw new AccountNotFoundException("Account not found");
     }
 
     public async Task<Account> UpdateAsync(Account t)
     {
-        var u = await _db.Accounts.FirstOrDefaultAsync(x => x.Id == t.Id);
-        if (u == null)
-        {
-            throw new AccountNotFoundException("Account not found");
-        }
+        var u = await GetByIdAsync(t.Id);
+        
         //u.Email = t.Email;
         u.Username = t.Username;
         //u.Phone = t.Phone;
