@@ -139,6 +139,8 @@ builder.Services.AddScoped<IAnswerRepository, AnswerRepository>();
 
 builder.Services.AddSingleton<PasswordHasher>();
 
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+
 builder.Services.AddDbContext<Context>();
 //build
 var app = builder.Build();
