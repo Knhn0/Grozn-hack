@@ -154,6 +154,12 @@ app.UseSwaggerUI();
 //start
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
+app.UseCors(cors =>
+{
+    cors.AllowAnyHeader();
+    cors.AllowAnyOrigin();
+});
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
