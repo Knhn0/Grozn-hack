@@ -49,11 +49,11 @@ public class CourseRepository : ICourseRepository
             throw new CourseNotFoundException("Course not found");
         }
 
-        dbCourse.Description = t.Description;
-        dbCourse.Title = t.Description;
-        dbCourse.Students = t.Students;
-        dbCourse.Teacher = t.Teacher;
-        dbCourse.Themes = t.Themes;
+        if (!String.IsNullOrEmpty(t.Description)) dbCourse.Description = t.Description;
+        if (!String.IsNullOrEmpty(t.Title)) dbCourse.Title = t.Title;
+        if (t.Students is not null) dbCourse.Students = t.Students;
+        if (t.Teacher is not null) dbCourse.Teacher = t.Teacher;
+        if (t.Themes is not null) dbCourse.Themes = t.Themes;
             
         await _db.SaveChangesAsync();
         return dbCourse;

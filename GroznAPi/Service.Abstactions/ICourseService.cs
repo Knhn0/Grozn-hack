@@ -13,4 +13,6 @@ public interface ICourseService
     Task<Course> GetByIdAsync(int courseId);
     Task<CourseRemovedResponseDto> RemoveCourseForcedAsync(RemoveCourseRequestDto request);
     Task<CourseRemovedResponseDto> RemoveCourseAsync(RemoveCourseRequestDto request, int userId);
+    Task<CourseUpdatedResponseDto> UpdateCourseAsync(UpdateCourseRequestDto request, int userId);
+    Task<CourseUpdatedResponseDto> UpdateCourseForcedAsync(UpdateCourseRequestDto request);
 }
