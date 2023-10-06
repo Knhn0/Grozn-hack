@@ -55,4 +55,10 @@ public class LessonRepository : ILessonRepository
         await _db.SaveChangesAsync();
         return t;
     }
+
+    public async Task<List<Lesson>> GetLessonsByThemeIdAsync(int themeId)
+    {
+        var result = await _db.Lessons.Where(l => l.Theme.Id == themeId).ToListAsync();
+        return result ?? throw new LessonNotFoundException("Lessons not found");
+    }
 }

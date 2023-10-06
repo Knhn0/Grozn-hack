@@ -1,9 +1,11 @@
+using Contracts.Analitic;
 using Contracts.Lesson;
 
 namespace Service.Abstactions;
 
 public interface ILessonService
 {
+    Task<ThemeResponseDto> GetAllTestsByThemeId(int themeId, int studentId);
     Task<GetAllLessonsResponseDto> GetAllAsync();
 
     Task<GetLessonResponseDto> GetLesson(GetLessonRequestDto req);
