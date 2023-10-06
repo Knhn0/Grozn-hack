@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Contracts.Account;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Service;
@@ -12,6 +13,12 @@ public class AccountController : BaseController
     public AccountController(AccountService accountService)
     {
         _accountService = accountService;
+    }
+
+    [HttpGet("me")]
+    public async Task<ActionResult<AccountDto>> GetIdentity()
+    {
+        return await _accountService.GetByIdAsync(AccountId);
     }
     
     [HttpGet("get/{userId}")]
@@ -34,29 +41,20 @@ public class AccountController : BaseController
     }
     
     [HttpDelete("delete")]
-    public async Task<ActionResult> DeleteUserAsync([Required] int userId)
+    public async Task<ActionResult<AccountDeletedResponseDto>> DeleteUserAsync([Required] DeleteAccountRequestDto request)
     {
-        if (userId == 0)
+        if (request.Id <= 0)
         {
             return BadRequest("Invalid id");
         }
 
-        var user = await _accountService.GetByIdAsync(userId);
+        var user = await _accountService.GetByIdAsync(request.Id);
         
         if (user == null)
         {
             return BadRequest("User not found");
         }
-        var response = _accountService.DeleteAsync(user);
-        return Ok("User successfully deleted");
+        var response = _accountService.DeleteAsync(request);
+        return Ok(response);
     }
-
-    [HttpPost("create")]
-    public async Task<ActionResult> CreateUser([Required] Account account) 
-    {
-        var responce = _accountService.CreateAsync(account);
-        return Ok("User was created");
-    }
-    
-    
 }

@@ -64,7 +64,7 @@ public class LessonController: BaseController
     }
 
     [HttpPut("/update")]
-    public async Task<ActionResult<UpdateLessonResponseDto>> Updatelesson(UpdateLessonRequestDto req)
+    public async Task<ActionResult<UpdateLessonResponseDto>> UpdateLesson(UpdateLessonRequestDto req)
     {
         if (Role == "Student") return BadRequest("Invalid account type");
         return await _lessonService.UpdateLesson(req);
