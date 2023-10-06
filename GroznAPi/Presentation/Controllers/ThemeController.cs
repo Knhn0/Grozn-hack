@@ -19,7 +19,7 @@ public class ThemeController : BaseController
         _themeService = themeService;
     }
 
-    [HttpGet("/{themeId}")]
+    [HttpGet("{themeId}")]
     public async Task<ActionResult> GetUserAsync(int themeId)
     {
         if (themeId == 0)
@@ -38,7 +38,7 @@ public class ThemeController : BaseController
         return Ok(resp);
     }
 
-    [HttpDelete("/{id}")]
+    [HttpDelete("{id}")]
     public async Task DeleteTheme(int id)
     {
         await _themeService.DeleteThemeAsync(id);
