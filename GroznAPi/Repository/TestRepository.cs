@@ -37,6 +37,7 @@ public class TestRepository : ITestRepository
         dbTest.Title = t.Title;
         dbTest.Description = t.Description;
         dbTest.LessonId = t.LessonId;
+        dbTest.Questions = t.Questions;
 
         await _db.SaveChangesAsync();
         return dbTest;
