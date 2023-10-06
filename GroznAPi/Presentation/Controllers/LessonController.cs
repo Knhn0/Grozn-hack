@@ -25,7 +25,7 @@ public class LessonController: BaseController
     }
 
 
-    [HttpGet("lesson/get/{lessonId}")]
+    [HttpGet("get/{lessonId}")]
     public async Task<ActionResult<GetLessonsResponseDto>> GetLessonAsync([Required] GetLessonRequestDto req)
     {
         if (req.LessonId == 0)
@@ -37,7 +37,7 @@ public class LessonController: BaseController
         return Ok(resp);
     }
 
-    [HttpGet("lessons/getTheme/{lessonId}")]
+    [HttpGet("getTheme/{lessonId}")]
     public async Task<ActionResult<GetLessonThemeResponseDto>> GetLessonTheme(GetLessonThemeRequestDto req)
     {
         if (req.LessonId == 0)
@@ -48,28 +48,28 @@ public class LessonController: BaseController
         return Ok(resp);
     }
 
-    [HttpGet("lessons/get")]
+    [HttpGet("get")]
     public async Task<ActionResult<GetLessonsResponseDto>> GetLessons()
     {
         var resp = await _lessonService.GetAllAsync();
         return Ok(resp);
     }
 
-    [HttpDelete("lesson/delete")]
+    [HttpDelete("delete")]
     public async Task<ActionResult<DeleteLessonResponseDto>> DeleteLesson(DeleteLessonRequestDto req)
     {
         await _lessonService.DeleteLesson(req);
         return Ok(req);
     }
 
-    [HttpPut("lesson/update")]
+    [HttpPut("update")]
     public async Task<ActionResult<UpdateLessonResponseDto>> Updatelesson(UpdateLessonRequestDto req)
     {
         return await _lessonService.UpdateLesson(req);
         
     }
 
-    [HttpPost("lesson/getPercents")]
+    [HttpPost("getPercents")]
     public async Task<ActionResult<GetLessonsPercentResponseDto>> GetLEssonsPercentByThemeId([FromBody] GetLessonsPercentRequest req)
     {
         return await _lessonService.GetLessonsPercentByThemeId(req.ThemeId, req.StudentId);
