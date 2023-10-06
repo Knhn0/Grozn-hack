@@ -15,7 +15,7 @@ public class ThemeService: IThemeService
         _themeRepository = themeRepository;
     }
 
-    public async Task<CreateThemeResponseDto> CreateTheme(CreateThemeRequestDto req)
+    public async Task<CreateThemeResponseDto> CreateThemeAsync(CreateThemeRequestDto req)
     {
         var theme = new Theme
         {
@@ -28,12 +28,11 @@ public class ThemeService: IThemeService
         {
             Title = theme.Title,
             Description = theme.Description,
-            ThemeId = theme.Id,
-            Lessons = theme.Lessons
+            Id = theme.Id
         };
     }
 
-    public async Task<GetThemeResponseDto> GetTheme(int id)
+    public async Task<GetThemeResponseDto> GetThemeAsync(int id)
     {
         if (id == 0) throw new Exception("Invalid id");
         var res = await _themeRepository.GetByIdAsync(id);
@@ -42,12 +41,10 @@ public class ThemeService: IThemeService
         {
             Title = res.Title,
             Description = res.Description,
-            Lessons = res.Lessons
-            
         };
     }
 
-    public async Task<UpdateThemeResponseDto> UpdateTheme(UpdateThemeRequestDto t)
+    public async Task<UpdateThemeResponseDto> UpdateThemeAsync(UpdateThemeRequestDto t)
     {
         var theme = await _themeRepository.GetByIdAsync(t.ThemeId);
         if (theme == null) throw new Exception("Theme not found");
@@ -62,7 +59,7 @@ public class ThemeService: IThemeService
         };
     }
 
-    public async Task DeleteTheme(DeleteThemeRequestDto t)
+    public async Task DeleteThemeAsync(DeleteThemeRequestDto t)
     {
         var theme = await _themeRepository.GetByIdAsync(t.ThemeId);
         if (theme == null) throw new Exception("Theme not found");
@@ -70,7 +67,7 @@ public class ThemeService: IThemeService
     }
     
 
-    public async Task<GetLessonsResponseDto> GetLessons()
+    public async Task<GetLessonsResponseDto> GetLessonsAsync()
     {
         var list = await _themeRepository.GetLessonsAsync();
         return new GetLessonsResponseDto

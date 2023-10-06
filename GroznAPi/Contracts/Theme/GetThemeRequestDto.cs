@@ -2,5 +2,5 @@
 
 public class GetThemeRequestDto
 {
-    public int themeId { get; set; }
+    public int ThemeId { get; set; }
 }
