@@ -31,7 +31,7 @@ public class AwsController : BaseController
                 IsUploaded = true,
                 File = new AwsFileDto
                 {
-                    Url = BaseUrl + formFile.Name
+                    Url = BaseUrl + formFile.FileName
                 }
             });
         }
