@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Presentation.Controllers;
 
 [ApiController]
+[Route("[controller]")]
 public class BaseController : ControllerBase
 {
     protected int AccountId => JwtParser.GetAccountId(AuthHeader);
