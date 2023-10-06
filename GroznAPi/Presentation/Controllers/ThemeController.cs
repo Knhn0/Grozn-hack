@@ -61,7 +61,7 @@ public class ThemeController : BaseController
     }
 
     [HttpGet("by-course/{courseId}")]
-    public async Task<ActionResult<List<ThemeDto>>> GetByCourseId([FromQuery] int courseId)
+    public async Task<ActionResult<List<ThemeDto>>> GetByCourseId([FromRoute] int courseId)
     {
         return await _themeService.GetThemesByCourseId(courseId);
     }
