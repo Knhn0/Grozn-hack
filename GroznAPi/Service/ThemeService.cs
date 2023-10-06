@@ -65,7 +65,6 @@ public class ThemeService: IThemeService
         if (theme == null) throw new Exception("Theme not found");
         await _themeRepository.DeleteAsync(theme);
     }
-    
 
     public async Task<GetLessonsResponseDto> GetLessonsAsync()
     {
