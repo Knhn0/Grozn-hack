@@ -9,6 +9,8 @@ public interface ITestRepository
     Task<Test> UpdateAsync(Test t);
     Task<Test> CreateAsync(Test t);
     Task<bool> DeleteAsync(Test t);
-
     Task<List<Test>> GetAllTestsByLessonIdAsync(int lessonId);
+    Task<List<Question>> GetQuestionsAsync(int id);
+    Task<List<Question>> CreateQuestionsAsync(int id, params Question[] questions);
+    Task<Course> GetCourseAsync(int id);
 }

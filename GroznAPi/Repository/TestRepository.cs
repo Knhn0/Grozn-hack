@@ -61,4 +61,26 @@ public class TestRepository : ITestRepository
         var result =  await _db.Tests.Where(t => t.Lesson.Id == lessonId).ToListAsync();
         return result ?? throw new TestNotFoundException("Tests not found");
     }
+
+    public async Task<List<Question>> CreateQuestionsAsync(int id, params Question[] questions)
+    {
+        var test = await GetByIdAsync(id);
+        foreach (var question in questions)
+        {
+            question.Test = test;
+            await _db.Questions.AddAsync(question);
+        }
+
+        return await GetQuestionsAsync(id);
+    }
+
+    public Task<Course> GetCourseAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<List<Question>> GetQuestionsAsync(int id)
+    {
+        return await _db.Questions.Where(q => q.Test.Id == id).ToListAsync();
+    }
 }
