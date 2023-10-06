@@ -34,8 +34,8 @@ public class AnswerRepository : IAnswerRepository
             throw new AnswerNotFoundException("Answer not found");
         }
 
-        dbAnswer.Question = t.Question;
-        dbAnswer.Text = t.Text;
+        dbAnswer.QuestionId = t.Id;
+        dbAnswer.Title = t.Title;
         dbAnswer.IsRight = t.IsRight;
             
         await _db.SaveChangesAsync();

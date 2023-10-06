@@ -10,6 +10,6 @@ public interface IThemeRepository
     Task<Theme?> GetByIdAsync(int id);
     Task<Theme> UpdateAsync(Theme t);
     Task<Theme> CreateAsync(Theme t);
-    Task<bool> DeleteAsync(Theme t);
+    Task<bool> DeleteAsync(int id);
     Task<List<Theme>> GetByCourseId(int courseId);
 }

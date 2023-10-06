@@ -12,8 +12,8 @@ using Presistence;
 namespace Presistence.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231006110000_Initial")]
-    partial class Initial
+    [Migration("20231006134357_role")]
+    partial class role
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -80,7 +80,7 @@ namespace Presistence.Migrations
                     b.Property<int>("QuestionId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -379,13 +379,11 @@ namespace Presistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Answer", b =>
                 {
-                    b.HasOne("Domain.Entities.Question", "Question")
+                    b.HasOne("Domain.Entities.Question", null)
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("Domain.Entities.Course", b =>
@@ -401,13 +399,11 @@ namespace Presistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Lesson", b =>
                 {
-                    b.HasOne("Domain.Entities.Theme", "Theme")
+                    b.HasOne("Domain.Entities.Theme", null)
                         .WithMany("Lessons")
                         .HasForeignKey("ThemeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Theme");
                 });
 
             modelBuilder.Entity("Domain.Entities.Question", b =>
@@ -418,15 +414,13 @@ namespace Presistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Test", "Test")
-                        .WithMany()
+                    b.HasOne("Domain.Entities.Test", null)
+                        .WithMany("Questions")
                         .HasForeignKey("TestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Resource");
-
-                    b.Navigation("Test");
                 });
 
             modelBuilder.Entity("Domain.Entities.Student", b =>
@@ -472,24 +466,20 @@ namespace Presistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Test", b =>
                 {
-                    b.HasOne("Domain.Entities.Lesson", "Lesson")
-                        .WithMany()
+                    b.HasOne("Domain.Entities.Lesson", null)
+                        .WithMany("Tests")
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Lesson");
                 });
 
             modelBuilder.Entity("Domain.Entities.Theme", b =>
                 {
-                    b.HasOne("Domain.Entities.Course", "Course")
+                    b.HasOne("Domain.Entities.Course", null)
                         .WithMany("Themes")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("Domain.Entities.UserInfo", b =>
@@ -520,6 +510,11 @@ namespace Presistence.Migrations
                     b.Navigation("Themes");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Lesson", b =>
+                {
+                    b.Navigation("Tests");
+                });
+
             modelBuilder.Entity("Domain.Entities.Question", b =>
                 {
                     b.Navigation("Answers");
@@ -533,6 +528,11 @@ namespace Presistence.Migrations
             modelBuilder.Entity("Domain.Entities.Teacher", b =>
                 {
                     b.Navigation("Courses");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Test", b =>
+                {
+                    b.Navigation("Questions");
                 });
 
             modelBuilder.Entity("Domain.Entities.Theme", b =>

@@ -17,18 +17,18 @@ public class TestRepository : ITestRepository
 
     public async Task<List<Test>> GetAllAsync()
     {
-        return await _db.Tests.ToListAsync();
+        return await _db.Tests.Include(x => x.Questions).Include(x => x.Questions.Select(x => x.Answers)).ToListAsync();
     }
 
     public async Task<Test> GetByIdAsync(int id)
     {
-        var result = await _db.Tests.FirstOrDefaultAsync(x => x.Id == id);
+        var result = await _db.Tests.Include(x => x.Questions).Include(x => x.Questions.Select(x => x.Answers)).FirstOrDefaultAsync(x => x.Id == id);
         return result ?? throw new ResourceNotFoundException("Test not found");
     }
 
     public async Task<Test> UpdateAsync(Test t)
     {
-        var dbTest = await _db.Tests.FirstOrDefaultAsync(x => x.Id == t.Id);
+        var dbTest = await _db.Tests.Include(x => x.Questions).Include(x => x.Questions.Select(x => x.Answers)).FirstOrDefaultAsync(x => x.Id == t.Id);
         if (dbTest == null)
         {
             throw new TestNotFoundException("Test not found");
@@ -36,8 +36,8 @@ public class TestRepository : ITestRepository
 
         dbTest.Title = t.Title;
         dbTest.Description = t.Description;
-        dbTest.Lesson = t.Lesson;
-            
+        dbTest.LessonId = t.LessonId;
+
         await _db.SaveChangesAsync();
         return dbTest;
     }
@@ -58,7 +58,7 @@ public class TestRepository : ITestRepository
 
     public async Task<List<Test>> GetAllTestsByLessonIdAsync(int lessonId)
     {
-        var result =  await _db.Tests.Where(t => t.Lesson.Id == lessonId).ToListAsync();
+        var result = await _db.Tests.Include(x => x.Questions).Include(x => x.Questions.Select(x => x.Answers)).Where(t => t.LessonId == lessonId).ToListAsync();
         return result ?? throw new TestNotFoundException("Tests not found");
     }
 
@@ -67,7 +67,7 @@ public class TestRepository : ITestRepository
         var test = await GetByIdAsync(id);
         foreach (var question in questions)
         {
-            question.Test = test;
+            question.TestId = test.Id;
             await _db.Questions.AddAsync(question);
         }
 
@@ -81,9 +81,9 @@ public class TestRepository : ITestRepository
     JOIN ""Lessons"" l on t.""Id"" = l.""ThemeId""
     JOIN ""Tests"" tt on tt.""LessonId"" = l.""Id""
     WHERE tt.""Id"" = {0};", testId).ToListAsync();
-        
+
         var id = list.FirstOrDefault().Id;
-        
+
         var candidate = await _db.Courses.FirstOrDefaultAsync(c => c.Id == id);
         if (candidate is null) throw new CourseNotFoundException("Course not found");
         return candidate;
@@ -91,6 +91,6 @@ public class TestRepository : ITestRepository
 
     public async Task<List<Question>> GetQuestionsAsync(int id)
     {
-        return await _db.Questions.Where(q => q.Test.Id == id).ToListAsync();
+        return await _db.Questions.Include(x=> x.Answers).Where(q => q.TestId == id).ToListAsync();
     }
 }

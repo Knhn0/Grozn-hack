@@ -12,7 +12,7 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
 
         builder.HasKey(course => course.Id);
         builder.Property(course => course.Id).ValueGeneratedOnAdd();
-        
+
         builder.Property(course => course.Title).HasMaxLength(100);
         builder.Property(course => course.Description).HasMaxLength(300);
 
@@ -22,11 +22,11 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(course => course.Students)
-            .WithOne()
-            .HasForeignKey(student => student.Id);
+            .WithMany(x => x.Courses);
 
         builder.HasMany(course => course.Themes)
             .WithOne()
-            .HasForeignKey(theme => theme.Id);
+            .HasForeignKey(theme => theme.Id)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

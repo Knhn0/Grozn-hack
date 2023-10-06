@@ -15,8 +15,10 @@ public class LessonConfiguration : IEntityTypeConfiguration<Lesson>
 
         builder.Property(lesson => lesson.Title).HasMaxLength(60);
 
-        builder.HasOne(lesson => lesson.Theme)
+        builder.HasMany(t => t.Tests)
             .WithOne()
-            .HasForeignKey<Theme>(theme => theme.Id);
+            .HasForeignKey(test => test.LessonId)
+            .OnDelete(DeleteBehavior.Cascade);
+
     }
 }

@@ -9,7 +9,7 @@ public class StudentTestPercentConfiguration : IEntityTypeConfiguration<StudentT
     public void Configure(EntityTypeBuilder<StudentTestPercent> builder)
     {
         builder.ToTable(nameof(StudentTestPercent));
-        
+
         builder.HasKey(percent => percent.Id);
         builder.Property(percent => percent.Id).ValueGeneratedOnAdd();
 
@@ -19,7 +19,6 @@ public class StudentTestPercentConfiguration : IEntityTypeConfiguration<StudentT
 
         builder.HasOne(percent => percent.Student)
             .WithOne()
-            .HasForeignKey<Student>(student => student.Id)
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasForeignKey<Student>(student => student.Id);
     }
 }

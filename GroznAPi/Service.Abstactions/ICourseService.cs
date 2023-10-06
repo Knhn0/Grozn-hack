@@ -5,14 +5,13 @@ namespace Service.Abstactions;
 
 public interface ICourseService
 {
-    Task<CourseCreatedResponseDto> CreateCourseAsync(CreateCourseRequestDto request, int userId);
+    Task<CreateCourseResponseDto> CreateCourseAsync(CreateCourseRequestDto request, int userId);
     Task<CourseJoinedResponseDto> JoinCourseAsync(JoinCourseRequestDto request, int userId);
-    Task<GetThemesResponseDto> GetThemesAsync(GetThemesRequestDto request);
     Task<List<Course>> GetJoinedCourses(int userId);
     Task<List<Course>> GetAllCoursesAsync();
     Task<Course> GetByIdAsync(int courseId);
-    Task<CourseRemovedResponseDto> RemoveCourseForcedAsync(RemoveCourseRequestDto request);
-    Task<CourseRemovedResponseDto> RemoveCourseAsync(RemoveCourseRequestDto request, int userId);
-    Task<CourseUpdatedResponseDto> UpdateCourseAsync(UpdateCourseRequestDto request, int userId);
-    Task<CourseUpdatedResponseDto> UpdateCourseForcedAsync(UpdateCourseRequestDto request);
+    Task RemoveCourseForcedAsync(int id);
+    Task RemoveCourseAsync(int id, int userId);
+    Task<UpdateCourseResponseDto> UpdateCourseAsync(UpdateCourseRequestDto request, int userId);
+    Task<UpdateCourseResponseDto> UpdateCourseForcedAsync(UpdateCourseRequestDto request);
 }
