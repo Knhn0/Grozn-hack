@@ -8,7 +8,7 @@ public class ResourceConfiguration : IEntityTypeConfiguration<Resource>
 {
     public void Configure(EntityTypeBuilder<Resource> builder)
     {
-        builder.ToTable(nameof(Question));
+        builder.ToTable(nameof(Resource));
 
         builder.HasKey(resource => resource.Id);
         builder.Property(resource => resource.Id).ValueGeneratedOnAdd();

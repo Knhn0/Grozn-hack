@@ -94,4 +94,16 @@ public class TestRepository : ITestRepository
     {
         return await _db.Questions.Include(x=> x.Answers).Where(q => q.TestId == id).ToListAsync();
     }
+
+    public async Task<Question> UpdateQuestionAsync(Question question)
+    {
+        var dbQuestion = await _db.Questions.FirstOrDefaultAsync(q => q.Id == question.Id);
+        if (dbQuestion is null) throw new QuestionNotFoundException("Question not found");
+        
+        dbQuestion.Title = question.Title;
+        dbQuestion.Resource = question.Resource;
+        
+        await _db.SaveChangesAsync();
+        return dbQuestion;
+    }
 }

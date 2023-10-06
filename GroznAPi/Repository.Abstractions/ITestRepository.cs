@@ -13,4 +13,5 @@ public interface ITestRepository
     Task<List<Question>> GetQuestionsAsync(int id);
     Task<List<Question>> CreateQuestionsAsync(int id, params Question[] questions);
     Task<Course> GetCourseAsync(int id);
+    Task<Question> UpdateQuestionAsync(Question question);
 }

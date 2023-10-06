@@ -1,10 +1,13 @@
 using System.Reflection;
 using System.Text;
+using CodePackage.Cfgs;
+using CodePackage.Yandex.Storage;
 using GroznApi.Middleware;
 using Helpers;
 using Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Presistence;
@@ -118,6 +121,7 @@ builder.Services.AddScoped<IThemeService, ThemeService>();
 builder.Services.AddScoped<ILessonService, LessonService>();
 builder.Services.AddScoped<ITestService, TestService>();
 builder.Services.AddScoped<GptService>();
+builder.Services.AddScoped<AwsService>();
 builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
@@ -143,6 +147,16 @@ builder.Services.AddSingleton<PasswordHasher>();
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 builder.Services.AddDbContext<Context>();
+
+builder.Services.RegisterYandexObjectStorage();
+builder.Services.Configure<YandexObjectStorageOptions>(y =>
+{
+    y.UserKey = "YCNC6whQumS5VAxPblEU6v81FWbCcvU7Xmt0thUg";
+    y.UserId = "YCAJEP73J9gjQVZoEgkMUuce3";
+    y.ServiceUrl = "https://s3.yandexcloud.net";
+    y.Bucket = "grozn-hack";
+});
+
 //build
 var app = builder.Build();
 
@@ -169,6 +183,7 @@ app.UseCors(cors =>
     cors.AllowAnyHeader();
     cors.AllowAnyOrigin();
 });
+
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
