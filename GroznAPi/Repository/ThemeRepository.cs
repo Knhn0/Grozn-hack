@@ -55,6 +55,6 @@ public class ThemeRepository : IThemeRepository
 
     public async Task<List<Theme>> GetByCourseId(int courseId)
     {
-        return await _db.Themes.FromSqlRaw(@"select * from ""Themes"" where ""CourseId"" = $1;", courseId).ToListAsync();
+        return await _db.Themes.FromSqlRaw(@"select * from ""Themes"" where ""CourseId"" = {0};", courseId).ToListAsync();
     }
 }
