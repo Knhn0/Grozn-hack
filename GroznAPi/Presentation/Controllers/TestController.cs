@@ -25,14 +25,20 @@ public class TestController : BaseController
     }
 
     [HttpGet("by-lesson/{id}")]
-    public async Task<ActionResult<List<TestDto>>> GetTestByLessonId([FromRoute] int id)
+    public async Task<ActionResult> GetTestByLessonId([FromRoute] int id)
     {
-        return await _testService.GetTestsByLessonAsync(id);
+        return Ok(await _testService.GetTestsByLessonAsync(id));
     }
 
     [HttpPost]
     public async Task<ActionResult<CreateTestResponseDto>> CreateTest([FromBody] CreateTestRequestDto request)
     {
         return Ok(await _testService.CreateTestAsync(request));
+    }
+
+    [HttpPut]
+    public async Task<ActionResult> UpdateTest(UpdateTestRequestDto request)
+    {
+        return Ok(await _testService.UpdateTestAsync(request));
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Contracts.Course;
 using Contracts.Test;
 using Domain.Entities;
 using Exceptions.Implementation;
@@ -124,14 +125,14 @@ public class TestService : ITestService
         }));
     }
 
-    public async Task<TestDto> EditTestAsync(TestDto testDto)
+    public async Task<UpdateTestResponseDto> UpdateTestAsync(UpdateTestRequestDto request)
     {
-        var testDb = await _testRepository.GetByIdAsync(testDto.Id);
+        var testDb = await _testRepository.GetByIdAsync(request.Id);
 
-        testDb.Title = testDto.Title;
-        testDb.Description = testDto.Description;
-        testDb.LessonId = testDto.LessonId;
-        testDb.Questions = testDto.Questions.Select(q => new Question
+        testDb.Title = request.Title;
+        testDb.Description = request.Description;
+        testDb.LessonId = request.LessonId;
+        testDb.Questions = request.Questions.Select(q => new Question
         {
             Title = q.Title,
             Answers = q.Answers.Select(a => new Answer
@@ -142,28 +143,33 @@ public class TestService : ITestService
         }).ToList();
 
         var res = await _testRepository.UpdateAsync(testDb);
-
-        return testDto;
+        
+        return new UpdateTestResponseDto
+        {
+            Test = new TestDto
+            {
+                Id = testDb.Id,
+                Title = testDb.Title,
+                Description = testDb.Description,
+                Questions = testDb.Questions.Select(q => new QuestionDto
+                {
+                    Id = q.Id,
+                    Title = q.Title,
+                    Answers = q.Answers.Select(a => new AnswerDto
+                    {
+                        Id = a.Id,
+                        Title = a.Title,
+                        IsRight = a.IsRight
+                    }).ToList()
+                }).ToList(),
+                LessonId = testDb.LessonId
+            }
+        };
     }
 
-    public async Task<TestDto> RemoveTestAsync(TestDto testDto)
+    public async Task<bool> RemoveTestAsync(int id)
     {
-        var res = await _testRepository.DeleteAsync(new Test
-        {
-            Title = testDto.Title,
-            Description = testDto.Description,
-            Questions = testDto.Questions.Select(q => new Question
-            {
-                Title = q.Title,
-                Answers = q.Answers.Select(a => new Answer
-                {
-                    Title = a.Title,
-                    IsRight = a.IsRight
-                }).ToList()
-            }).ToList()
-        });
-
-        if (!res) throw new TestNotFoundException("Invalid test");
-        return testDto;
+        var res = await _testRepository.DeleteAsync(new Test { Id = id });
+        return res;
     }
 }
