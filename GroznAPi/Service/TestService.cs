@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using Contracts.Test;
 using Domain.Entities;
+using Exceptions.Implementation;
 using Repository.Abstractions;
 using Service.Abstactions;
 
@@ -61,6 +62,24 @@ public class TestService : ITestService
     {
         var tests = await _testRepository.GetAllAsync();
 
+        /*
+            var test = await _testRepository.CreateAsync(new Test
+                {
+                    Title = request.Title,
+                    Description = request.Description,
+                    Questions = request.Questions.Select(q => new Question
+                    {
+                        Title = q.Title,
+                        Answers = q.Answers.Select(a => new Answer
+                        {
+                            Title = a.Title,
+                            IsRight = a.IsRight
+                    }).ToList()
+                }).ToList()
+            });
+         */
+        
+        
         return new List<TestDto>(tests.Select(t => new TestDto
         {
             Id = t.Id,
@@ -104,5 +123,47 @@ public class TestService : ITestService
             LessonId = t.LessonId
         }));
     }
-    
+
+    public async Task<TestDto> EditTestAsync(TestDto testDto)
+    {
+        var testDb = await _testRepository.GetByIdAsync(testDto.Id);
+
+        testDb.Title = testDto.Title;
+        testDb.Description = testDto.Description;
+        testDb.LessonId = testDto.LessonId;
+        testDb.Questions = testDto.Questions.Select(q => new Question
+        {
+            Title = q.Title,
+            Answers = q.Answers.Select(a => new Answer
+            {
+                Title = a.Title,
+                IsRight = a.IsRight
+            }).ToList()
+        }).ToList();
+
+        var res = await _testRepository.UpdateAsync(testDb);
+
+        return testDto;
+    }
+
+    public async Task<TestDto> RemoveTestAsync(TestDto testDto)
+    {
+        var res = await _testRepository.DeleteAsync(new Test
+        {
+            Title = testDto.Title,
+            Description = testDto.Description,
+            Questions = testDto.Questions.Select(q => new Question
+            {
+                Title = q.Title,
+                Answers = q.Answers.Select(a => new Answer
+                {
+                    Title = a.Title,
+                    IsRight = a.IsRight
+                }).ToList()
+            }).ToList()
+        });
+
+        if (!res) throw new TestNotFoundException("Invalid test");
+        return testDto;
+    }
 }
