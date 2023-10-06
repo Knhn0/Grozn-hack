@@ -112,4 +112,46 @@ public class CourseService : ICourseService
             Title = candidate.Title
         };
     }
+
+    public async Task<CourseUpdatedResponseDto> UpdateCourseAsync(UpdateCourseRequestDto request, int userId)
+    {
+        var result = await _courseRepository.GetByIdAsync(request.Id);
+        var own = (await _teacherRepository.GetCreatedCoursesAsync(result.Id))
+            .FirstOrDefault(c => c.Teacher.Id == (_teacherRepository.GetByUserIdAsync(userId)).GetAwaiter().GetResult().Id);
+        if (own is null)
+            throw new CourseNotFoundException("Course not found");
+
+        var res = await _courseRepository.UpdateAsync(new Course
+        {
+            Title = request.Title,
+            Description = request.Description
+        });
+
+        return new CourseUpdatedResponseDto
+        {
+            Id = res.Id,
+            Title = res.Title,
+            Description = res.Description
+        };
+    }
+    
+    public async Task<CourseUpdatedResponseDto> UpdateCourseForcedAsync(UpdateCourseRequestDto request)
+    {
+        var result = await _courseRepository.GetByIdAsync(request.Id);
+        if (result is null) throw new CourseNotFoundException("Course not found");
+
+        var res = await _courseRepository.UpdateAsync(new Course
+        {
+            Id = request.Id,
+            Title = request.Title,
+            Description = request.Description
+        });
+
+        return new CourseUpdatedResponseDto
+        {
+            Id = res.Id,
+            Title = res.Title,
+            Description = res.Description
+        };
+    }
 }
