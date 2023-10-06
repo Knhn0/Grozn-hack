@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Exceptions.Implementation;
 using Microsoft.EntityFrameworkCore;
 using Presistence;
 using Repository.Abstractions;
@@ -55,6 +56,8 @@ public class ThemeRepository : IThemeRepository
 
     public async Task<List<Theme>> GetByCourseId(int courseId)
     {
-        return await _db.Themes.FromSqlRaw(@"select * from ""Themes"" where ""CourseId"" = {0};", courseId).ToListAsync();
+        var res = await _db.Themes.FromSqlRaw(@"select * from ""Themes"" where ""CourseId"" = {0};", courseId).ToListAsync();
+        if (res.Count == 0) throw new ThemeNotFoundException("Theme not found");
+        return res;
     }
 }

@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Text;
+using GroznApi.Middleware;
 using Helpers;
 using Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -151,6 +152,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 //start
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
