@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Presistence.Configurations;
 
-public class StudenTestPercentConfiguration : IEntityTypeConfiguration<StudentTestPercent>
+public class StudentTestPercentConfiguration : IEntityTypeConfiguration<StudentTestPercent>
 {
     public void Configure(EntityTypeBuilder<StudentTestPercent> builder)
     {
