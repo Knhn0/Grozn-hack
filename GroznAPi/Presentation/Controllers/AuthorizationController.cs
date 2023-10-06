@@ -1,6 +1,11 @@
-﻿using Contracts.Autorization;
+using Contracts.Autorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Service.Abstactions;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Service.Abstactions;
 
 namespace Presentation.Controllers;
