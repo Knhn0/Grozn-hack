@@ -30,5 +30,6 @@ public class Context : DbContext
     public DbSet<Test> Tests { get; set; }
     public DbSet<Theme> Themes { get; set; }
     public DbSet<UserInfo> UserInfos { get; set; }
+    public DbSet<Answer> Answers { get; set; }
 
 }
